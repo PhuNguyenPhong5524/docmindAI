@@ -1,0 +1,396 @@
+<!DOCTYPE html><html lang="vi"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><title>DOCMIND AI - Admin Console</title><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "inverse-primary": "#c3c0ff", "tertiary": "#004d70", "on-secondary-fixed": "#07006c", "inverse-surface": "#213145", "on-primary": "#ffffff", "surface-variant": "#d3e4fe", "surface-dim": "#cbdbf5", "secondary-fixed-dim": "#c0c1ff", "on-tertiary-fixed": "#001e2f", "tertiary-fixed-dim": "#89ceff", "background": "#f8f9ff", "secondary-container": "#6063ee", "on-primary-container": "#dad7ff", "error-container": "#ffdad6", "surface-container-highest": "#d3e4fe", "on-surface": "#0b1c30", "outline": "#777587", "on-secondary-fixed-variant": "#2f2ebe", "primary": "#3525cd", "on-error-container": "#93000a", "secondary": "#4648d4", "secondary-fixed": "#e1e0ff", "on-secondary-container": "#fffbff", "tertiary-fixed": "#c9e6ff", "surface": "#f8f9ff", "surface-container": "#e5eeff", "outline-variant": "#c7c4d8", "primary-fixed-dim": "#c3c0ff", "surface-bright": "#f8f9ff", "primary-fixed": "#e2dfff", "primary-container": "#4f46e5", "on-secondary": "#ffffff", "on-tertiary": "#ffffff", "inverse-on-surface": "#eaf1ff", "surface-container-high": "#dce9ff", "on-background": "#0b1c30", "surface-tint": "#4d44e3", "surface-container-low": "#eff4ff", "error": "#ba1a1a", "tertiary-container": "#006693", "on-surface-variant": "#464555", "on-tertiary-fixed-variant": "#004c6e", "surface-container-lowest": "#ffffff", "on-primary-fixed-variant": "#3323cc", "on-tertiary-container": "#b8e0ff", "on-error": "#ffffff", "on-primary-fixed": "#0f0069" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xs": "0.25rem", "gutter-sm": "1rem", "space-md": "1rem", "gutter": "1.5rem", "space-xl": "2.5rem", "margin-sm": "1rem", "margin": "2rem", "space-sm": "0.5rem", "space-lg": "1.5rem" }, "fontFamily": { "body-md": [ "Inter" ], "headline-md": [ "Inter" ], "headline-sm": [ "Inter" ], "label-md": [ "Inter" ], "display-lg-mobile": [ "Inter" ], "headline-lg": [ "Inter" ], "display-lg": [ "Inter" ], "label-sm": [ "Inter" ], "body-sm": [ "Inter" ], "headline-lg-mobile": [ "Inter" ], "body-lg": [ "Inter" ], "code-sm": [ "JetBrains Mono" ] }, "fontSize": { "body-md": [ "14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" } ], "headline-md": [ "22px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" } ], "headline-sm": [ "18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "label-md": [ "14px", { "lineHeight": "20px", "letterSpacing": "-0.005em", "fontWeight": "500" } ], "display-lg-mobile": [ "30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" } ], "headline-lg": [ "28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" } ], "display-lg": [ "40px", { "lineHeight": "48px", "letterSpacing": "-0.025em", "fontWeight": "700" } ], "label-sm": [ "12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500" } ], "body-sm": [ "12px", { "lineHeight": "16px", "letterSpacing": "0.005em", "fontWeight": "400" } ], "headline-lg-mobile": [ "24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" } ], "body-lg": [ "16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "400" } ], "code-sm": [ "12px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400" } ] } } } };</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-72 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between select-none"><div class="flex flex-col"><div class="h-16 px-gutter flex items-center gap-space-sm"><img alt="DOCMIND AI modern SaaS logo mark. A refined geometric document fold merged with intelligent synaptic neural nodes and vector sparkle, clean gradient in indigo and electric violet, high contrast and professional finish for enterprise AI document assistant.. Brand logo. - Primary color: #4f46e5
+- Font: inter
+- Mode: light
+- Roundness: rounded-md
+" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VWf_dPaOYCAGw1rXZ7BKfrSBUcBS7qYUKu9e8uxxv4ZK9x58T9WlneHa52P9uq1Uu1GOr50DyiRT3TVHrceD-8vvCxM82KAMVuXOLmXu0evPy09kxtPv96OHF1-oiRrCMRtcSZ7DvUHaKMRV8DxrWCGt8IIYyao48yS6mVyuMa6RZuXhotMEp-jb0h6ntaWlhxENBAjgG30CfdU6yWefU5y15xeqCCMKD49QIHXmwo4WQS--7xzXKw3lM"><div class="flex flex-col"><div class="flex items-center gap-space-xs flex-nowrap whitespace-nowrap"><span class="font-headline-sm text-headline-sm tracking-tight text-on-surface font-bold whitespace-nowrap">DOCMIND AI</span><span class="font-label-sm text-label-sm px-space-xs py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-semibold tracking-wide whitespace-nowrap">Admin Console</span></div></div></div><div class="px-gutter-sm pt-space-md"><div class="px-space-sm pb-space-xs font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Điều hướng chính</div><nav class="flex flex-col gap-space-xs" data-active-classes="bg-primary-container text-on-primary font-label-md shadow-sm"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-all font-label-md text-label-md" data-path="admin-dashboard" href="#"><span class="material-symbols-outlined text-[20px]">dashboard</span><span class="">Dashboard</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-all font-label-md text-label-md" data-path="admin-users" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span class="">Người dùng</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg transition-all bg-primary-container text-on-primary font-label-md shadow-sm" data-path="admin-documents" href="#"><span class="material-symbols-outlined text-[20px]">description</span><span class="">Tài liệu</span></a></nav></div></div><div class="p-space-md m-space-sm rounded-xl bg-surface-container-low shadow-[0_1px_4px_rgba(0,0,0,0.03)] flex flex-col gap-space-sm"><div class="flex items-center gap-space-sm"><div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center font-headline-sm text-headline-sm text-on-primary font-bold shadow-sm">NV</div><div class="flex flex-col min-w-0 flex-1"><div class="flex items-center gap-space-xs"><span class="font-label-md text-label-md font-semibold text-on-surface truncate">Nguyễn Văn Quản Trị</span><span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-primary-container text-on-primary font-bold text-[10px] tracking-wider">ADMIN</span></div><span class="font-code-sm text-code-sm text-on-surface-variant truncate">admin@docmind.ai</span></div></div><div class="flex items-center justify-between pt-space-xs"><a class="flex items-center gap-space-xs font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" data-path="admin-profile" href="#"><span class="material-symbols-outlined text-[16px]">manage_accounts</span><span class="">Thông tin tài khoản</span></a><a class="flex items-center gap-space-xs font-label-sm text-label-sm text-error hover:text-on-error-container transition-colors" data-path="admin-logout" href="#"><span class="material-symbols-outlined text-[16px]">logout</span><span class="">Đăng xuất</span></a></div></div></aside><div class="pl-72 flex flex-col min-h-screen"><header class="fixed top-0 left-72 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl z-40 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="w-full h-full px-gutter flex items-center justify-between"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs font-label-sm text-label-sm text-on-surface-variant flex-nowrap whitespace-nowrap"><span class="font-bold text-on-surface whitespace-nowrap">DOCMIND AI</span><span class="material-symbols-outlined text-[14px]">chevron_right</span><span class="text-on-surface font-semibold whitespace-nowrap">Khu vực Quản trị</span></div><div class="h-4 w-[1px] bg-surface-variant hidden md:block"></div><div class="hidden md:flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-surface-container-low font-label-sm text-label-sm"><span class="inline-block w-2 h-2 rounded-full bg-[#10b981] animate-pulse"></span><span class="text-on-surface font-medium">System: Healthy &amp; Synced</span></div><span class="hidden lg:inline-flex items-center px-space-sm py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-semibold">Quản trị hệ thống</span></div><div class="flex items-center gap-space-md"><button class="relative p-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1 right-1 flex items-center justify-center w-4 h-4 bg-error text-on-error rounded-full text-[10px] font-bold">2</span></button><div class="flex items-center gap-space-sm pl-space-xs"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="hidden xl:flex flex-col text-left"><span class="font-label-sm text-label-sm font-semibold text-on-surface leading-tight">Admin Quick Profile</span><span class="font-body-sm text-body-sm text-on-surface-variant leading-tight">Super Administrator</span></div><span class="material-symbols-outlined text-on-surface-variant text-[18px]">expand_more</span></div></div></div></header><main class="w-full pt-16 bg-background flex-1"><div class="flex flex-col w-full px-margin py-gutter gap-space-lg">
+<!-- Header Section with Metainfo & Stats Spark -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-code-sm text-code-sm text-primary uppercase font-medium tracking-wider">Storage &amp; RAG Pipeline</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Cluster: ap-southeast-1</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight font-bold">Quản lý tài liệu</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Theo dõi tài liệu được người dùng tải lên hệ thống và giám sát tiến trình vector hóa Milvus.</p>
+</div>
+<!-- Quick Storage Telemetry Card -->
+<div class="flex items-center gap-space-lg bg-surface-container-lowest p-space-md rounded-xl shadow-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">database</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Vector Database</span>
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">342 Files / 1.48 GB</span>
+</div>
+</div>
+<div class="h-8 w-px bg-surface-container"></div>
+<div class="flex flex-col text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Milvus Chunks Indexed</span>
+<span class="font-headline-sm text-headline-sm font-bold text-primary">124,890 Chunks</span>
+</div>
+</div>
+</div>
+<!-- Filter & Controls Toolbar -->
+<div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-space-md bg-surface-container-lowest p-space-md rounded-xl shadow-sm">
+<!-- Ant Design Style Segmented Filter Group -->
+<div class="flex items-center bg-surface-container-low p-1 rounded-lg overflow-x-auto select-none" id="statusFilterGroup">
+<button class="filter-tab px-space-md py-1.5 rounded-md font-label-md text-label-md font-semibold bg-surface-container-lowest text-primary shadow-sm transition-all flex items-center gap-space-xs shrink-0" onclick="filterDocuments('ALL', this)">
+<span class="">Tất cả</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container-high text-on-surface text-[11px] font-bold">342</span>
+</button>
+<button class="filter-tab px-space-md py-1.5 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all flex items-center gap-space-xs shrink-0" onclick="filterDocuments('READY', this)">
+<span class="w-2 h-2 rounded-full bg-[#10b981]"></span>
+<span class="">Sẵn sàng</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant text-[11px]">318</span>
+</button>
+<button class="filter-tab px-space-md py-1.5 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all flex items-center gap-space-xs shrink-0" onclick="filterDocuments('PROCESSING', this)">
+<span class="w-2 h-2 rounded-full bg-[#f59e0b] animate-pulse"></span>
+<span class="">Đang xử lý</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant text-[11px]">16</span>
+</button>
+<button class="filter-tab px-space-md py-1.5 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all flex items-center gap-space-xs shrink-0" onclick="filterDocuments('FAILED', this)">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span class="">Thất bại</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant text-[11px]">8</span>
+</button>
+</div>
+<!-- Search & Secondary Dropdown Filters -->
+<div class="flex items-center gap-space-sm flex-1 max-w-xl">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input class="w-full pl-9 pr-space-md py-2 bg-surface-container-low focus:bg-surface-container-lowest text-on-surface font-body-md text-body-md rounded-lg outline-none transition-all placeholder:text-outline" id="searchInput" oninput="handleSearch(this.value)" placeholder="Tìm kiếm tên tài liệu, chủ sở hữu, email..." type="text">
+</div>
+<!-- Capacity Filter Selector -->
+<div class="relative">
+<select class="bg-surface-container-low text-on-surface font-label-md text-label-md rounded-lg px-space-md py-2 outline-none cursor-pointer appearance-none pr-8 hover:bg-surface-container transition-colors">
+<option value="">Dung lượng</option>
+<option value="small">&lt; 10 MB</option>
+<option value="medium">10 - 50 MB</option>
+<option value="large">&gt; 50 MB</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-on-surface-variant text-[16px] pointer-events-none">expand_more</span>
+</div>
+<!-- Reset Action -->
+<button class="p-2 rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors" onclick="resetFilters()" title="Làm mới bảng">
+<span class="material-symbols-outlined text-[20px]">refresh</span>
+</button>
+</div>
+</div>
+<!-- Document Table Card Container -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col">
+<div class="overflow-x-auto w-full">
+<table class="w-full text-left font-body-sm text-body-sm border-collapse min-w-[820px]"><thead><tr class="bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm font-semibold uppercase tracking-wider select-none whitespace-nowrap"><th class="py-space-md px-space-md w-[260px]">Tài liệu</th><th class="py-space-md px-space-md w-[200px]">Chủ sở hữu</th><th class="py-space-md px-space-md w-[100px] whitespace-nowrap">Kích thước</th><th class="py-space-md px-space-md w-[90px] whitespace-nowrap">Số trang</th><th class="py-space-md px-space-md w-[170px] whitespace-nowrap">Trạng thái</th><th class="py-space-md px-space-md w-[130px] whitespace-nowrap">Ngày tải lên</th><th class="py-space-md px-space-md w-[90px] text-right whitespace-nowrap">Thao tác</th></tr></thead><tbody class="divide-y-0" id="documentsTableBody"><tr class="doc-row hover:bg-surface-container-low/50 transition-colors" data-search="tai lieu thuat toan rag llm nguyen van an" data-status="READY"><td class="py-space-md px-space-md"><div class="flex items-center gap-space-sm"><div class="w-9 h-10 rounded-lg bg-[#fee2e2] text-[#dc2626] flex flex-col items-center justify-center shrink-0 shadow-xs font-bold text-[10px] tracking-tight"><span class="material-symbols-outlined text-[18px]">picture_as_pdf</span><span class="">PDF</span></div><div class="flex flex-col min-w-0 max-w-[200px]"><span class="font-label-md text-label-md font-semibold text-on-surface truncate cursor-pointer hover:text-primary transition-colors" onclick="openDetailDrawer('DOC-8821')" title="Tai_lieu_thuat_toan_RAG_v2.pdf">Tai_lieu_thuat_toan_RAG_v2.pdf</span><span class="font-code-sm text-code-sm text-on-surface-variant truncate" title="rag_indexing_whitepaper_final.pdf">rag_indexing_whitepaper_final.pdf</span></div></div></td><td class="py-space-md px-space-md"><div class="flex items-center gap-space-xs"><div class="w-7 h-7 rounded-full bg-primary-fixed text-on-primary-fixed font-semibold text-xs flex items-center justify-center shrink-0">NA</div><div class="flex flex-col min-w-0 max-w-[170px]"><span class="font-label-md text-label-md font-medium text-on-surface truncate" title="Nguyễn Văn An">Nguyễn Văn An</span><span class="font-code-sm text-code-sm text-on-surface-variant truncate" title="nguyenvanan@uit.edu.vn">nguyenvanan@uit.edu.vn</span></div></div></td><td class="py-space-md px-space-md font-code-sm text-code-sm font-medium text-on-surface whitespace-nowrap">12.4 MB</td><td class="py-space-md px-space-md font-code-sm text-code-sm text-on-surface whitespace-nowrap">48 trang</td><td class="py-space-md px-space-md whitespace-nowrap"><span class="inline-flex items-center gap-1.5 px-space-sm py-1 rounded-full bg-[#ecfdf5] text-[#047857] font-label-sm text-label-sm font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-[#10b981]"></span><span class="">Sẵn sàng</span></span></td><td class="py-space-md px-space-md font-code-sm text-code-sm text-on-surface-variant whitespace-nowrap">24/10/2024 14:20</td><td class="py-space-md px-space-md text-right whitespace-nowrap"><div class="flex items-center justify-end gap-1"><button class="p-1.5 rounded text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" onclick="openDetailDrawer('DOC-8821')" title="Xem chi tiết"><span class="material-symbols-outlined text-[18px]">visibility</span></button><button class="p-1.5 rounded text-on-surface-variant hover:text-error hover:bg-error-container/30 transition-colors" onclick="openDeleteModal('DOC-8821', 'Tai_lieu_thuat_toan_RAG_v2.pdf', 'Nguyễn Văn An (nguyenvanan@uit.edu.vn)', '12.4 MB', '48 trang', 'READY')" title="Xóa tài liệu"><span class="material-symbols-outlined text-[18px]">delete</span></button></div></td></tr><tr class="doc-row hover:bg-surface-container-low/50 transition-colors" data-search="scan giao trinh cu bi loi hoang van binh" data-status="FAILED"><td class="py-space-md px-space-md"><div class="flex items-center gap-space-sm"><div class="w-9 h-10 rounded-lg bg-[#fee2e2] text-[#dc2626] flex flex-col items-center justify-center shrink-0 shadow-xs font-bold text-[10px] tracking-tight"><span class="material-symbols-outlined text-[18px]">picture_as_pdf</span><span class="">PDF</span></div><div class="flex flex-col min-w-0 max-w-[200px]"><span class="font-label-md text-label-md font-semibold text-error truncate cursor-pointer hover:underline" onclick="openDetailDrawer('DOC-9402')" title="Scan_giao_trinh_cu_bi_loi.pdf">Scan_giao_trinh_cu_bi_loi.pdf</span><span class="font-code-sm text-code-sm text-on-surface-variant truncate" title="scan_c2_he_thong_nhung_1998.pdf">scan_c2_he_thong_nhung_1998.pdf</span></div></div></td><td class="py-space-md px-space-md"><div class="flex items-center gap-space-xs"><div class="w-7 h-7 rounded-full bg-surface-variant text-on-surface-variant font-semibold text-xs flex items-center justify-center shrink-0">HB</div><div class="flex flex-col min-w-0 max-w-[170px]"><span class="font-label-md text-label-md font-medium text-on-surface truncate" title="Hoàng Văn Bình">Hoàng Văn Bình</span><span class="font-code-sm text-code-sm text-on-surface-variant truncate" title="binh.hoang@uit.edu.vn">binh.hoang@uit.edu.vn</span></div></div></td><td class="py-space-md px-space-md font-code-sm text-code-sm font-medium text-on-surface whitespace-nowrap">34.5 MB</td><td class="py-space-md px-space-md font-code-sm text-code-sm text-on-surface whitespace-nowrap">120 trang</td><td class="py-space-md px-space-md whitespace-nowrap"><span class="inline-flex items-center gap-1.5 px-space-sm py-1 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold"><span class="material-symbols-outlined text-[14px]">warning</span><span class="">Thất bại (Lỗi OCR font)</span></span></td><td class="py-space-md px-space-md font-code-sm text-code-sm text-on-surface-variant whitespace-nowrap">24/10/2024 13:05</td><td class="py-space-md px-space-md text-right whitespace-nowrap"><div class="flex items-center justify-end gap-1"><button class="p-1.5 rounded text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" onclick="openDetailDrawer('DOC-9402')" title="Xem chi tiết"><span class="material-symbols-outlined text-[18px]">visibility</span></button><button class="p-1.5 rounded text-error hover:bg-error-container/40 transition-colors" onclick="openDeleteModal('DOC-9402', 'Scan_giao_trinh_cu_bi_loi.pdf', 'Hoàng Văn Bình (binh.hoang@uit.edu.vn)', '34.5 MB', '120 trang', 'FAILED')" title="Xóa tài liệu"><span class="material-symbols-outlined text-[18px]">delete</span></button></div></td></tr><tr class="doc-row hover:bg-surface-container-low/50 transition-colors" data-search="bao cao tai chinh quy 3 tran mai anh" data-status="PROCESSING"><td class="py-space-md px-space-md"><div class="flex items-center gap-space-sm"><div class="w-9 h-10 rounded-lg bg-[#fee2e2] text-[#dc2626] flex flex-col items-center justify-center shrink-0 shadow-xs font-bold text-[10px] tracking-tight"><span class="material-symbols-outlined text-[18px]">picture_as_pdf</span><span class="">PDF</span></div><div class="flex flex-col min-w-0 max-w-[200px]"><span class="font-label-md text-label-md font-semibold text-on-surface truncate cursor-pointer hover:text-primary transition-colors" onclick="openDetailDrawer('DOC-8821')" title="Bao_cao_tai_chinh_Q3_Enterprise.pdf">Bao_cao_tai_chinh_Q3_Enterprise.pdf</span><span class="font-code-sm text-code-sm text-on-surface-variant truncate" title="audited_q3_report_2024.pdf">audited_q3_report_2024.pdf</span></div></div></td><td class="py-space-md px-space-md"><div class="flex items-center gap-space-xs"><div class="w-7 h-7 rounded-full bg-secondary-fixed text-on-secondary-fixed font-semibold text-xs flex items-center justify-center shrink-0">TM</div><div class="flex flex-col min-w-0 max-w-[170px]"><span class="font-label-md text-label-md font-medium text-on-surface truncate" title="Trần Mai Anh">Trần Mai Anh</span><span class="font-code-sm text-code-sm text-on-surface-variant truncate" title="maianh.tran@techcorp.vn">maianh.tran@techcorp.vn</span></div></div></td><td class="py-space-md px-space-md font-code-sm text-code-sm font-medium text-on-surface whitespace-nowrap">8.2 MB</td><td class="py-space-md px-space-md font-code-sm text-code-sm text-on-surface whitespace-nowrap">32 trang</td><td class="py-space-md px-space-md whitespace-nowrap"><span class="inline-flex items-center gap-1.5 px-space-sm py-1 rounded-full bg-[#fffbeb] text-[#b45309] font-label-sm text-label-sm font-semibold"><span class="material-symbols-outlined text-[14px] animate-spin">progress_activity</span><span class="">Đang xử lý (45%)</span></span></td><td class="py-space-md px-space-md font-code-sm text-code-sm text-on-surface-variant whitespace-nowrap">24/10/2024 15:42</td><td class="py-space-md px-space-md text-right whitespace-nowrap"><div class="flex items-center justify-end gap-1"><button class="p-1.5 rounded text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" onclick="openDetailDrawer('DOC-8821')" title="Xem chi tiết"><span class="material-symbols-outlined text-[18px]">visibility</span></button><button class="p-1.5 rounded text-on-surface-variant hover:text-error hover:bg-error-container/30 transition-colors" onclick="openDeleteModal('DOC-8821', 'Bao_cao_tai_chinh_Q3_Enterprise.pdf', 'Trần Mai Anh (maianh.tran@techcorp.vn)', '8.2 MB', '32 trang', 'PROCESSING')" title="Xóa tài liệu"><span class="material-symbols-outlined text-[18px]">delete</span></button></div></td></tr><tr class="doc-row hover:bg-surface-container-low/50 transition-colors" data-search="quy trinh an toan thong tin iso le quang duc" data-status="READY"><td class="py-space-md px-space-md"><div class="flex items-center gap-space-sm"><div class="w-9 h-10 rounded-lg bg-[#fee2e2] text-[#dc2626] flex flex-col items-center justify-center shrink-0 shadow-xs font-bold text-[10px] tracking-tight"><span class="material-symbols-outlined text-[18px]">picture_as_pdf</span><span class="">PDF</span></div><div class="flex flex-col min-w-0 max-w-[200px]"><span class="font-label-md text-label-md font-semibold text-on-surface truncate cursor-pointer hover:text-primary transition-colors" onclick="openDetailDrawer('DOC-8821')" title="ISO_27001_Information_Security_Manual.pdf">ISO_27001_Information_Security_Manual.pdf</span><span class="font-code-sm text-code-sm text-on-surface-variant truncate" title="iso_policy_revised_signed.pdf">iso_policy_revised_signed.pdf</span></div></div></td><td class="py-space-md px-space-md"><div class="flex items-center gap-space-xs"><div class="w-7 h-7 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-semibold text-xs flex items-center justify-center shrink-0">LD</div><div class="flex flex-col min-w-0 max-w-[170px]"><span class="font-label-md text-label-md font-medium text-on-surface truncate" title="Lê Quang Đức">Lê Quang Đức</span><span class="font-code-sm text-code-sm text-on-surface-variant truncate" title="duc.le@securenets.io">duc.le@securenets.io</span></div></div></td><td class="py-space-md px-space-md font-code-sm text-code-sm font-medium text-on-surface whitespace-nowrap">19.1 MB</td><td class="py-space-md px-space-md font-code-sm text-code-sm text-on-surface whitespace-nowrap">86 trang</td><td class="py-space-md px-space-md whitespace-nowrap"><span class="inline-flex items-center gap-1.5 px-space-sm py-1 rounded-full bg-[#ecfdf5] text-[#047857] font-label-sm text-label-sm font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-[#10b981]"></span><span class="">Sẵn sàng</span></span></td><td class="py-space-md px-space-md font-code-sm text-code-sm text-on-surface-variant whitespace-nowrap">23/10/2024 18:11</td><td class="py-space-md px-space-md text-right whitespace-nowrap"><div class="flex items-center justify-end gap-1"><button class="p-1.5 rounded text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" onclick="openDetailDrawer('DOC-8821')" title="Xem chi tiết"><span class="material-symbols-outlined text-[18px]">visibility</span></button><button class="p-1.5 rounded text-on-surface-variant hover:text-error hover:bg-error-container/30 transition-colors" onclick="openDeleteModal('DOC-8821', 'ISO_27001_Information_Security_Manual.pdf', 'Lê Quang Đức (duc.le@securenets.io)', '19.1 MB', '86 trang', 'READY')" title="Xóa tài liệu"><span class="material-symbols-outlined text-[18px]">delete</span></button></div></td></tr><tr class="doc-row hover:bg-surface-container-low/50 transition-colors" data-search="so tay nhan su hr handbook vu thi hang" data-status="READY"><td class="py-space-md px-space-md"><div class="flex items-center gap-space-sm"><div class="w-9 h-10 rounded-lg bg-[#fee2e2] text-[#dc2626] flex flex-col items-center justify-center shrink-0 shadow-xs font-bold text-[10px] tracking-tight"><span class="material-symbols-outlined text-[18px]">picture_as_pdf</span><span class="">PDF</span></div><div class="flex flex-col min-w-0 max-w-[200px]"><span class="font-label-md text-label-md font-semibold text-on-surface truncate cursor-pointer hover:text-primary transition-colors" onclick="openDetailDrawer('DOC-8821')" title="So_tay_nhan_su_Docmind_2024.pdf">So_tay_nhan_su_Docmind_2024.pdf</span><span class="font-code-sm text-code-sm text-on-surface-variant truncate" title="internal_docmind_handbook.pdf">internal_docmind_handbook.pdf</span></div></div></td><td class="py-space-md px-space-md"><div class="flex items-center gap-space-xs"><div class="w-7 h-7 rounded-full bg-primary-container text-on-primary font-semibold text-xs flex items-center justify-center shrink-0">VH</div><div class="flex flex-col min-w-0 max-w-[170px]"><span class="font-label-md text-label-md font-medium text-on-surface truncate" title="Vũ Thị Hằng">Vũ Thị Hằng</span><span class="font-code-sm text-code-sm text-on-surface-variant truncate" title="hang.vu@docmind.ai">hang.vu@docmind.ai</span></div></div></td><td class="py-space-md px-space-md font-code-sm text-code-sm font-medium text-on-surface whitespace-nowrap">5.8 MB</td><td class="py-space-md px-space-md font-code-sm text-code-sm text-on-surface whitespace-nowrap">24 trang</td><td class="py-space-md px-space-md whitespace-nowrap"><span class="inline-flex items-center gap-1.5 px-space-sm py-1 rounded-full bg-[#ecfdf5] text-[#047857] font-label-sm text-label-sm font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-[#10b981]"></span><span class="">Sẵn sàng</span></span></td><td class="py-space-md px-space-md font-code-sm text-code-sm text-on-surface-variant whitespace-nowrap">22/10/2024 09:15</td><td class="py-space-md px-space-md text-right whitespace-nowrap"><div class="flex items-center justify-end gap-1"><button class="p-1.5 rounded text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" onclick="openDetailDrawer('DOC-8821')" title="Xem chi tiết"><span class="material-symbols-outlined text-[18px]">visibility</span></button><button class="p-1.5 rounded text-on-surface-variant hover:text-error hover:bg-error-container/30 transition-colors" onclick="openDeleteModal('DOC-8821', 'So_tay_nhan_su_Docmind_2024.pdf', 'Vũ Thị Hằng (hang.vu@docmind.ai)', '5.8 MB', '24 trang', 'READY')" title="Xóa tài liệu"><span class="material-symbols-outlined text-[18px]">delete</span></button></div></td></tr></tbody></table>
+</div>
+<!-- Ant Design Style Pagination Footer -->
+<div class="px-space-md py-space-sm bg-surface-container-low/60 flex flex-col sm:flex-row items-center justify-between gap-space-sm font-label-sm text-label-sm text-on-surface-variant">
+<span class="">Hiển thị 1 - 5 trong tổng số 342 tài liệu</span>
+<div class="flex items-center gap-space-xs">
+<button class="px-2 py-1 rounded bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container shadow-xs font-semibold disabled:opacity-40" disabled="">
+<span class="material-symbols-outlined text-[16px] align-middle">chevron_left</span>
+</button>
+<button class="px-2.5 py-1 rounded bg-primary text-on-primary font-bold shadow-xs">1</button>
+<button class="px-2.5 py-1 rounded bg-surface-container-lowest text-on-surface hover:bg-surface-container shadow-xs">2</button>
+<button class="px-2.5 py-1 rounded bg-surface-container-lowest text-on-surface hover:bg-surface-container shadow-xs">3</button>
+<span class="px-1 text-outline">...</span>
+<button class="px-2.5 py-1 rounded bg-surface-container-lowest text-on-surface hover:bg-surface-container shadow-xs">69</button>
+<button class="px-2 py-1 rounded bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container shadow-xs font-semibold">
+<span class="material-symbols-outlined text-[16px] align-middle">chevron_right</span>
+</button>
+<span class="ml-space-sm">5 / trang</span>
+</div>
+</div>
+</div>
+<!-- Document Detail Drawer (Slide-over Right Panel) -->
+<div class="fixed inset-0 bg-inverse-surface/40 backdrop-blur-xs z-50 transition-opacity duration-300 opacity-0 pointer-events-none" id="drawerBackdrop" onclick="closeDetailDrawer()"></div>
+<aside class="fixed right-0 top-0 bottom-0 w-full max-w-lg bg-surface-container-lowest z-50 shadow-2xl transform transition-transform duration-300 ease-in-out flex flex-col" id="detailDrawer">
+<!-- Drawer Header -->
+<div class="p-space-md bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">assignment</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold" id="drawerTitle">Chi tiết tài liệu - DOC-8821</span>
+</div>
+<button class="p-1 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" onclick="closeDetailDrawer()">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Drawer Content Scroll Area -->
+<div class="flex-1 overflow-y-auto p-space-md flex flex-col gap-space-md">
+<!-- Status Notice Block -->
+<div class="p-space-md rounded-xl bg-[#ecfdf5] flex flex-col gap-1.5" id="drawerStatusBox">
+<div class="flex items-center gap-space-xs text-[#047857]">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span class="font-label-md text-label-md font-bold">Sẵn sàng phục vụ AI RAG</span>
+</div>
+<p class="font-body-sm text-body-sm text-[#065f46]" id="drawerStatusMessage">
+          Tài liệu đã sẵn sàng để sử dụng trong AI Chat. Toàn bộ 240 chunks đã hoàn tất embedding bằng mô hình text-embedding-3-large và lưu trữ tại Milvus Index.
+        </p>
+</div>
+<!-- General Metadata List -->
+<div class="flex flex-col gap-space-xs bg-surface-container-low p-space-md rounded-xl">
+<span class="font-label-sm text-label-sm font-bold uppercase tracking-wider text-on-surface-variant pb-1">Thuộc tính văn bản</span>
+<div class="flex justify-between py-1.5 font-body-sm text-body-sm">
+<span class="text-on-surface-variant">Tên tài liệu</span>
+<span class="font-semibold text-on-surface text-right truncate max-w-[240px]" id="drawerDocName">Tai_lieu_thuat_toan_RAG_v2.pdf</span>
+</div>
+<div class="flex justify-between py-1.5 font-body-sm text-body-sm">
+<span class="text-on-surface-variant">Tên gốc</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant text-right truncate max-w-[240px]" id="drawerOriginalName">rag_indexing_whitepaper_final.pdf</span>
+</div>
+<div class="flex justify-between py-1.5 font-body-sm text-body-sm">
+<span class="text-on-surface-variant">MIME Type</span>
+<span class="font-code-sm text-code-sm px-1.5 py-0.5 rounded bg-surface-container text-on-surface">application/pdf</span>
+</div>
+<div class="flex justify-between py-1.5 font-body-sm text-body-sm">
+<span class="text-on-surface-variant">Dung lượng</span>
+<span class="font-semibold text-on-surface" id="drawerSize">12.4 MB</span>
+</div>
+<div class="flex justify-between py-1.5 font-body-sm text-body-sm">
+<span class="text-on-surface-variant">Số trang</span>
+<span class="font-semibold text-on-surface" id="drawerPages">48 trang</span>
+</div>
+<div class="flex justify-between py-1.5 font-body-sm text-body-sm">
+<span class="text-on-surface-variant">Chủ sở hữu</span>
+<span class="font-medium text-primary text-right" id="drawerOwner">Nguyễn Văn An (nguyenvanan@uit.edu.vn)</span>
+</div>
+<div class="flex justify-between py-1.5 font-body-sm text-body-sm">
+<span class="text-on-surface-variant">Ngày tạo</span>
+<span class="font-code-sm text-code-sm text-on-surface">24/10/2024 14:20:18</span>
+</div>
+<div class="flex justify-between py-1.5 font-body-sm text-body-sm">
+<span class="text-on-surface-variant">Ngày cập nhật</span>
+<span class="font-code-sm text-code-sm text-on-surface">24/10/2024 14:22:04</span>
+</div>
+</div>
+<!-- Pipeline Telemetry -->
+<div class="flex flex-col gap-space-xs bg-surface-container-low p-space-md rounded-xl">
+<span class="font-label-sm text-label-sm font-bold uppercase tracking-wider text-on-surface-variant pb-1">Vector Ingestion Pipeline</span>
+<div class="grid grid-cols-2 gap-space-sm pt-1">
+<div class="p-space-sm rounded-lg bg-surface-container-lowest flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Chunk Count</span>
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">240 Chunks</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-lowest flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Avg Tokens / Chunk</span>
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">512 Tokens</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Drawer Footer Actions -->
+<div class="p-space-md bg-surface-container-low flex items-center justify-between gap-space-sm">
+<button class="px-space-md py-2 rounded-lg bg-surface-container hover:bg-surface-variant text-on-surface font-label-md text-label-md transition-colors" onclick="closeDetailDrawer()">
+        Đóng
+      </button>
+<button class="px-space-md py-2 rounded-lg bg-error hover:bg-on-error-container text-on-error font-label-md text-label-md font-semibold transition-colors flex items-center gap-space-xs shadow-sm" onclick="triggerDrawerDelete()">
+<span class="material-symbols-outlined text-[18px]">delete_forever</span>
+<span class="">Xóa tài liệu</span>
+</button>
+</div>
+</aside>
+<!-- Ant Design Style Danger Delete Confirmation Modal -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-space-md bg-inverse-surface/50 backdrop-blur-xs opacity-0 pointer-events-none transition-opacity duration-200" id="deleteModal">
+<div class="bg-surface-container-lowest w-full max-w-lg rounded-2xl p-space-lg shadow-2xl flex flex-col gap-space-md transform scale-95 transition-transform duration-200" id="deleteModalCard">
+<!-- Modal Header Icon & Title -->
+<div class="flex items-start gap-space-md">
+<div class="w-12 h-12 rounded-full bg-error-container text-error flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[28px]">warning</span>
+</div>
+<div class="flex flex-col gap-1">
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface">Xóa tài liệu khỏi hệ thống?</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Tài liệu, dữ liệu xử lý và các chunk liên quan sẽ bị xóa vĩnh viễn khỏi vector database (Milvus) và bộ nhớ lưu trữ. Hành động này không thể hoàn tác.
+          </p>
+</div>
+</div>
+<!-- Target Document Card -->
+<div class="bg-surface-container-low p-space-md rounded-xl flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-error text-[18px]">description</span>
+<span class="font-label-md text-label-md font-bold text-on-surface truncate" id="modalDocName">Scan_giao_trinh_cu_bi_loi.pdf</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant flex flex-col gap-0.5 pt-1">
+<div><span class="font-medium">Chủ sở hữu:</span> <span id="modalDocOwner" class="">Hoàng Văn Bình (binh.hoang@uit.edu.vn)</span></div>
+<div><span class="font-medium">Thông số:</span> <span id="modalDocMeta" class="">34.5 MB | 120 trang | Trạng thái: FAILED</span></div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex items-center justify-end gap-space-sm pt-space-xs">
+<button class="px-space-md py-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-label-md transition-colors" onclick="closeDeleteModal()">
+          Hủy
+        </button>
+<button class="px-space-md py-2 rounded-lg bg-error hover:bg-on-error-container text-on-error font-label-md text-label-md font-semibold transition-colors shadow-sm flex items-center gap-space-xs" onclick="confirmDeleteDocument()">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+<span class="">Xóa tài liệu</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Ant Design Style Toast Notification -->
+<div class="fixed top-20 right-8 z-50 transform translate-y-[-20px] opacity-0 pointer-events-none transition-all duration-300 ease-out flex items-center gap-space-sm bg-surface-container-lowest text-on-surface px-space-md py-space-sm rounded-xl shadow-xl" id="toastNotification">
+<div class="w-7 h-7 rounded-full bg-[#ecfdf5] text-[#10b981] flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+</div>
+<span class="font-label-md text-label-md font-medium" id="toastMessage">Đã xóa tài liệu khỏi hệ thống.</span>
+</div>
+</div>
+<script>
+  let activeTargetDocId = null;
+
+  function filterDocuments(status, btnElement) {
+    // Update Tab UI
+    document.querySelectorAll('#statusFilterGroup .filter-tab').forEach(tab => {
+      tab.classList.remove('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+      tab.classList.add('text-on-surface-variant');
+    });
+    btnElement.classList.add('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+    btnElement.classList.remove('text-on-surface-variant');
+
+    // Filter Table Rows
+    const rows = document.querySelectorAll('#documentsTableBody .doc-row');
+    rows.forEach(row => {
+      const rowStatus = row.getAttribute('data-status');
+      if (status === 'ALL' || rowStatus === status) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+
+  function handleSearch(query) {
+    const q = query.toLowerCase().trim();
+    const rows = document.querySelectorAll('#documentsTableBody .doc-row');
+    rows.forEach(row => {
+      const searchData = row.getAttribute('data-search') || '';
+      if (!q || searchData.includes(q)) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+
+  function resetFilters() {
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) searchInput.value = '';
+    const firstTab = document.querySelector('#statusFilterGroup .filter-tab');
+    if (firstTab) filterDocuments('ALL', firstTab);
+  }
+
+  function openDetailDrawer(docId) {
+    activeTargetDocId = docId;
+    const drawer = document.getElementById('detailDrawer');
+    const backdrop = document.getElementById('drawerBackdrop');
+    
+    // Adapt drawer content for demo docId
+    if (docId === 'DOC-9402') {
+      document.getElementById('drawerTitle').innerText = 'Chi tiết tài liệu - DOC-9402';
+      document.getElementById('drawerDocName').innerText = 'Scan_giao_trinh_cu_bi_loi.pdf';
+      document.getElementById('drawerOriginalName').innerText = 'scan_c2_he_thong_nhung_1998.pdf';
+      document.getElementById('drawerSize').innerText = '34.5 MB';
+      document.getElementById('drawerPages').innerText = '120 trang';
+      document.getElementById('drawerOwner').innerText = 'Hoàng Văn Bình (binh.hoang@uit.edu.vn)';
+      
+      const statusBox = document.getElementById('drawerStatusBox');
+      statusBox.className = 'p-space-md rounded-xl bg-error-container text-on-error-container flex flex-col gap-1.5';
+      statusBox.innerHTML = `
+        <div class="flex items-center gap-space-xs text-error font-bold">
+          <span class="material-symbols-outlined text-[18px]">error</span>
+          <span class="font-label-md text-label-md">Xử lý tài liệu thất bại</span>
+        </div>
+        <p class="font-body-sm text-body-sm">
+          Lỗi xử lý: File PDF được scan ở độ phân giải quá thấp hoặc bị mã hóa bảo vệ, OCR engine không thể nhận diện text.
+        </p>
+      `;
+    } else {
+      document.getElementById('drawerTitle').innerText = 'Chi tiết tài liệu - DOC-8821';
+      document.getElementById('drawerDocName').innerText = 'Tai_lieu_thuat_toan_RAG_v2.pdf';
+      document.getElementById('drawerOriginalName').innerText = 'rag_indexing_whitepaper_final.pdf';
+      document.getElementById('drawerSize').innerText = '12.4 MB';
+      document.getElementById('drawerPages').innerText = '48 trang';
+      document.getElementById('drawerOwner').innerText = 'Nguyễn Văn An (nguyenvanan@uit.edu.vn)';
+      
+      const statusBox = document.getElementById('drawerStatusBox');
+      statusBox.className = 'p-space-md rounded-xl bg-[#ecfdf5] flex flex-col gap-1.5';
+      statusBox.innerHTML = `
+        <div class="flex items-center gap-space-xs text-[#047857]">
+          <span class="material-symbols-outlined text-[18px]">verified</span>
+          <span class="font-label-md text-label-md font-bold">Sẵn sàng phục vụ AI RAG</span>
+        </div>
+        <p class="font-body-sm text-body-sm text-[#065f46]">
+          Tài liệu đã sẵn sàng để sử dụng trong AI Chat. Toàn bộ 240 chunks đã hoàn tất embedding bằng mô hình text-embedding-3-large và lưu trữ tại Milvus Index.
+        </p>
+      `;
+    }
+
+    backdrop.classList.remove('opacity-0', 'pointer-events-none');
+    backdrop.classList.add('opacity-100');
+    drawer.classList.remove('translate-x-full');
+  }
+
+  function closeDetailDrawer() {
+    const drawer = document.getElementById('detailDrawer');
+    const backdrop = document.getElementById('drawerBackdrop');
+    backdrop.classList.add('opacity-0', 'pointer-events-none');
+    backdrop.classList.remove('opacity-100');
+    drawer.classList.add('translate-x-full');
+  }
+
+  function triggerDrawerDelete() {
+    closeDetailDrawer();
+    if (activeTargetDocId === 'DOC-9402') {
+      openDeleteModal('DOC-9402', 'Scan_giao_trinh_cu_bi_loi.pdf', 'Hoàng Văn Bình (binh.hoang@uit.edu.vn)', '34.5 MB', '120 trang', 'FAILED');
+    } else {
+      openDeleteModal('DOC-8821', 'Tai_lieu_thuat_toan_RAG_v2.pdf', 'Nguyễn Văn An (nguyenvanan@uit.edu.vn)', '12.4 MB', '48 trang', 'READY');
+    }
+  }
+
+  function openDeleteModal(id, name, owner, size, pages, status) {
+    activeTargetDocId = id;
+    document.getElementById('modalDocName').innerText = name;
+    document.getElementById('modalDocOwner').innerText = owner;
+    document.getElementById('modalDocMeta').innerText = `${size} | ${pages} | Trạng thái: ${status}`;
+
+    const modal = document.getElementById('deleteModal');
+    const card = document.getElementById('deleteModalCard');
+    modal.classList.remove('opacity-0', 'pointer-events-none');
+    modal.classList.add('opacity-100');
+    card.classList.remove('scale-95');
+    card.classList.add('scale-100');
+  }
+
+  function closeDeleteModal() {
+    const modal = document.getElementById('deleteModal');
+    const card = document.getElementById('deleteModalCard');
+    modal.classList.add('opacity-0', 'pointer-events-none');
+    modal.classList.remove('opacity-100');
+    card.classList.add('scale-95');
+    card.classList.remove('scale-100');
+  }
+
+  function confirmDeleteDocument() {
+    closeDeleteModal();
+    showToast('Đã xóa tài liệu khỏi hệ thống.');
+  }
+
+  function showToast(msg) {
+    const toast = document.getElementById('toastNotification');
+    const toastMessage = document.getElementById('toastMessage');
+    toastMessage.innerText = msg;
+
+    toast.classList.remove('opacity-0', 'translate-y-[-20px]', 'pointer-events-none');
+    toast.classList.add('opacity-100', 'translate-y-0');
+
+    setTimeout(() => {
+      toast.classList.add('opacity-0', 'translate-y-[-20px]', 'pointer-events-none');
+      toast.classList.remove('opacity-100', 'translate-y-0');
+    }, 3200);
+  }
+</script></main></div>
+
+
+
+</body></html>

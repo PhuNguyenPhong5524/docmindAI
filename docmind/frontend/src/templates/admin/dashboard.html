@@ -1,0 +1,263 @@
+<!DOCTYPE html><html lang="vi"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><title>DOCMIND AI - Admin Console</title><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "inverse-primary": "#c3c0ff", "tertiary": "#004d70", "on-secondary-fixed": "#07006c", "inverse-surface": "#213145", "on-primary": "#ffffff", "surface-variant": "#d3e4fe", "surface-dim": "#cbdbf5", "secondary-fixed-dim": "#c0c1ff", "on-tertiary-fixed": "#001e2f", "tertiary-fixed-dim": "#89ceff", "background": "#f8f9ff", "secondary-container": "#6063ee", "on-primary-container": "#dad7ff", "error-container": "#ffdad6", "surface-container-highest": "#d3e4fe", "on-surface": "#0b1c30", "outline": "#777587", "on-secondary-fixed-variant": "#2f2ebe", "primary": "#3525cd", "on-error-container": "#93000a", "secondary": "#4648d4", "secondary-fixed": "#e1e0ff", "on-secondary-container": "#fffbff", "tertiary-fixed": "#c9e6ff", "surface": "#f8f9ff", "surface-container": "#e5eeff", "outline-variant": "#c7c4d8", "primary-fixed-dim": "#c3c0ff", "surface-bright": "#f8f9ff", "primary-fixed": "#e2dfff", "primary-container": "#4f46e5", "on-secondary": "#ffffff", "on-tertiary": "#ffffff", "inverse-on-surface": "#eaf1ff", "surface-container-high": "#dce9ff", "on-background": "#0b1c30", "surface-tint": "#4d44e3", "surface-container-low": "#eff4ff", "error": "#ba1a1a", "tertiary-container": "#006693", "on-surface-variant": "#464555", "on-tertiary-fixed-variant": "#004c6e", "surface-container-lowest": "#ffffff", "on-primary-fixed-variant": "#3323cc", "on-tertiary-container": "#b8e0ff", "on-error": "#ffffff", "on-primary-fixed": "#0f0069" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xs": "0.25rem", "gutter-sm": "1rem", "space-md": "1rem", "gutter": "1.5rem", "space-xl": "2.5rem", "margin-sm": "1rem", "margin": "2rem", "space-sm": "0.5rem", "space-lg": "1.5rem" }, "fontFamily": { "body-md": [ "Inter" ], "headline-md": [ "Inter" ], "headline-sm": [ "Inter" ], "label-md": [ "Inter" ], "display-lg-mobile": [ "Inter" ], "headline-lg": [ "Inter" ], "display-lg": [ "Inter" ], "label-sm": [ "Inter" ], "body-sm": [ "Inter" ], "headline-lg-mobile": [ "Inter" ], "body-lg": [ "Inter" ], "code-sm": [ "JetBrains Mono" ] }, "fontSize": { "body-md": [ "14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" } ], "headline-md": [ "22px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" } ], "headline-sm": [ "18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "label-md": [ "14px", { "lineHeight": "20px", "letterSpacing": "-0.005em", "fontWeight": "500" } ], "display-lg-mobile": [ "30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" } ], "headline-lg": [ "28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" } ], "display-lg": [ "40px", { "lineHeight": "48px", "letterSpacing": "-0.025em", "fontWeight": "700" } ], "label-sm": [ "12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500" } ], "body-sm": [ "12px", { "lineHeight": "16px", "letterSpacing": "0.005em", "fontWeight": "400" } ], "headline-lg-mobile": [ "24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" } ], "body-lg": [ "16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "400" } ], "code-sm": [ "12px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400" } ] } } } };</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-72 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between select-none"><div class="flex flex-col"><div class="h-16 px-gutter flex items-center gap-space-sm flex-nowrap"><img alt="DOCMIND AI modern SaaS logo mark. A refined geometric document fold merged with intelligent synaptic neural nodes and vector sparkle, clean gradient in indigo and electric violet, high contrast and professional finish for enterprise AI document assistant.. Brand logo. - Primary color: #4f46e5
+- Font: inter
+- Mode: light
+- Roundness: rounded-md
+" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VWf_dPaOYCAGw1rXZ7BKfrSBUcBS7qYUKu9e8uxxv4ZK9x58T9WlneHa52P9uq1Uu1GOr50DyiRT3TVHrceD-8vvCxM82KAMVuXOLmXu0evPy09kxtPv96OHF1-oiRrCMRtcSZ7DvUHaKMRV8DxrWCGt8IIYyao48yS6mVyuMa6RZuXhotMEp-jb0h6ntaWlhxENBAjgG30CfdU6yWefU5y15xeqCCMKD49QIHXmwo4WQS--7xzXKw3lM"><div class="flex flex-col"><div class="flex items-center gap-space-xs whitespace-nowrap flex-nowrap"><span class="font-headline-sm text-headline-sm tracking-tight text-on-surface font-bold whitespace-nowrap flex-shrink-0">DOCMIND AI</span><span class="font-label-sm text-label-sm px-space-xs py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-semibold tracking-wide whitespace-nowrap flex-shrink-0">Admin Console</span></div></div></div><div class="px-gutter-sm pt-space-md"><div class="px-space-sm pb-space-xs font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Điều hướng chính</div><nav class="flex flex-col gap-space-xs" data-active-classes="bg-primary-container text-on-primary font-label-md shadow-sm"><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg transition-all bg-primary-container text-on-primary font-label-md shadow-sm" data-path="admin-dashboard" href="#"><span class="material-symbols-outlined text-[20px]">dashboard</span><span class="">Dashboard</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-all font-label-md text-label-md" data-path="admin-users" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span class="">Người dùng</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-all font-label-md text-label-md" data-path="admin-documents" href="#"><span class="material-symbols-outlined text-[20px]">description</span><span class="">Tài liệu</span></a></nav></div></div><div class="p-space-md m-space-sm rounded-xl bg-surface-container-low shadow-[0_1px_4px_rgba(0,0,0,0.03)] flex flex-col gap-space-sm"><div class="flex items-center gap-space-sm"><div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center font-headline-sm text-headline-sm text-on-primary font-bold shadow-sm">NV</div><div class="flex flex-col min-w-0 flex-1"><div class="flex items-center gap-space-xs"><span class="font-label-md text-label-md font-semibold text-on-surface truncate">Nguyễn Văn Quản Trị</span><span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-primary-container text-on-primary font-bold text-[10px] tracking-wider">ADMIN</span></div><span class="font-code-sm text-code-sm text-on-surface-variant truncate">admin@docmind.ai</span></div></div><div class="flex items-center justify-between pt-space-xs"><a class="flex items-center gap-space-xs font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" data-path="admin-profile" href="#"><span class="material-symbols-outlined text-[16px]">manage_accounts</span><span class="">Thông tin tài khoản</span></a><a class="flex items-center gap-space-xs font-label-sm text-label-sm text-error hover:text-on-error-container transition-colors" data-path="admin-logout" href="#"><span class="material-symbols-outlined text-[16px]">logout</span><span class="">Đăng xuất</span></a></div></div></aside><div class="pl-72 flex flex-col min-h-screen"><header class="fixed top-0 left-72 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl z-40 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="w-full h-full px-gutter flex items-center justify-between"><div class="flex items-center gap-space-md flex-nowrap"><div class="flex items-center gap-space-xs font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap flex-shrink-0"><span class="font-medium">DOCMIND</span><span class="material-symbols-outlined text-[14px]">chevron_right</span><span class="text-on-surface font-semibold">Khu vực Quản trị</span></div><div class="h-4 w-[1px] bg-surface-variant hidden md:block"></div><div class="hidden md:flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-surface-container-low font-label-sm text-label-sm"><span class="inline-block w-2 h-2 rounded-full bg-[#10b981] animate-pulse"></span><span class="text-on-surface font-medium">System: Healthy &amp; Synced</span></div><span class="hidden lg:inline-flex items-center px-space-sm py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-semibold whitespace-nowrap flex-shrink-0">Quản trị hệ thống</span></div><div class="flex items-center gap-space-md"><button class="relative p-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1 right-1 flex items-center justify-center w-4 h-4 bg-error text-on-error rounded-full text-[10px] font-bold">2</span></button><div class="flex items-center gap-space-sm pl-space-xs"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="hidden xl:flex flex-col text-left"><span class="font-label-sm text-label-sm font-semibold text-on-surface leading-tight">Admin Quick Profile</span><span class="font-body-sm text-body-sm text-on-surface-variant leading-tight">Super Administrator</span></div><span class="material-symbols-outlined text-on-surface-variant text-[18px]">expand_more</span></div></div></div></header><main class="w-full pt-16 bg-background flex-1"><div class="flex flex-col w-full px-gutter py-space-md max-w-7xl mx-auto space-y-space-lg">
+<!-- Top Title & Controls Header -->
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-space-sm">
+<div class="space-y-1">
+<div class="flex items-center gap-space-xs">
+<h1 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">Dashboard</h1>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-label-sm font-semibold bg-surface-container text-primary">v2.4 Live</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Tổng quan hoạt động &amp; chỉ số pipeline xử lý tài liệu DOCMIND AI</p>
+</div>
+<div class="flex items-center gap-space-sm">
+<div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container-lowest shadow-sm text-on-surface-variant font-code-sm text-code-sm">
+<span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="">RAG Engine: 99.98% Up</span>
+</div>
+<button class="flex items-center gap-space-xs px-3.5 py-2 rounded-lg bg-surface-container-lowest text-on-surface hover:bg-surface-container text-label-md font-label-md shadow-sm transition-all active:scale-95" onclick="refreshData()">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">refresh</span>
+<span class="">Làm mới</span>
+</button>
+<a class="flex items-center gap-space-xs px-3.5 py-2 rounded-lg bg-primary-container text-on-primary hover:bg-primary transition-all text-label-md font-label-md shadow-sm active:scale-95" data-path="admin-documents" href="#">
+<span class="material-symbols-outlined text-[18px]">cloud_upload</span>
+<span class="">Tải tài liệu</span>
+</a>
+</div>
+</div>
+<!-- 4 Primary Metric Cards (Ant Design v5 Inspired) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Card 1: Tổng người dùng -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div>
+<span class="font-label-md text-label-md text-on-surface-variant font-medium">Tổng người dùng</span>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg text-on-surface font-bold tracking-tight">126</span>
+</div>
+</div>
+<div class="w-11 h-11 rounded-xl bg-surface-container flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined text-[24px]">group</span>
+</div>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between text-body-sm font-body-sm bg-surface-container-low -mx-space-md -mb-space-md px-space-md py-2.5 rounded-b-xl">
+<span class="inline-flex items-center text-emerald-700 font-label-sm font-semibold gap-0.5">
+<span class="material-symbols-outlined text-[16px]">arrow_upward</span> +12
+        </span>
+<span class="text-on-surface-variant font-label-sm">Gia nhập trong tháng</span>
+</div>
+</div>
+<!-- Card 2: Tổng tài liệu -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div>
+<span class="font-label-md text-label-md text-on-surface-variant font-medium">Tổng tài liệu</span>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg text-on-surface font-bold tracking-tight">342</span>
+</div>
+</div>
+<div class="w-11 h-11 rounded-xl bg-tertiary-fixed flex items-center justify-center text-tertiary shadow-sm">
+<span class="material-symbols-outlined text-[24px]">description</span>
+</div>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between text-body-sm font-body-sm bg-surface-container-low -mx-space-md -mb-space-md px-space-md py-2.5 rounded-b-xl">
+<span class="inline-flex items-center text-primary font-label-sm font-semibold gap-1">
+<span class="material-symbols-outlined text-[16px]">verified</span> 100%
+        </span>
+<span class="text-on-surface-variant font-label-sm">Đã vector hóa toàn diện</span>
+</div>
+</div>
+<!-- Card 3: Cuộc trò chuyện -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div>
+<span class="font-label-md text-label-md text-on-surface-variant font-medium">Cuộc trò chuyện</span>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg text-on-surface font-bold tracking-tight">481</span>
+</div>
+</div>
+<div class="w-11 h-11 rounded-xl bg-secondary-fixed flex items-center justify-center text-secondary shadow-sm">
+<span class="material-symbols-outlined text-[24px]">forum</span>
+</div>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between text-body-sm font-body-sm bg-surface-container-low -mx-space-md -mb-space-md px-space-md py-2.5 rounded-b-xl">
+<span class="inline-flex items-center text-on-secondary-fixed-variant font-label-sm font-semibold gap-0.5">
+<span class="material-symbols-outlined text-[16px]">bolt</span> RAG Live
+        </span>
+<span class="text-on-surface-variant font-label-sm">Phiên hỏi đáp đa ngữ</span>
+</div>
+</div>
+<!-- Card 4: Câu hỏi AI -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div>
+<span class="font-label-md text-label-md text-on-surface-variant font-medium">Câu hỏi AI</span>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg text-on-surface font-bold tracking-tight">1,248</span>
+</div>
+</div>
+<div class="w-11 h-11 rounded-xl bg-primary-fixed flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined text-[24px]">auto_awesome</span>
+</div>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between text-body-sm font-body-sm bg-surface-container-low -mx-space-md -mb-space-md px-space-md py-2.5 rounded-b-xl">
+<span class="inline-flex items-center text-emerald-700 font-label-sm font-semibold gap-0.5">
+<span class="material-symbols-outlined text-[16px]">verified_user</span> 99.2%
+        </span>
+<span class="text-on-surface-variant font-label-sm">Trích dẫn chính xác</span>
+</div>
+</div>
+</div>
+<!-- Document Processing Pipeline Status (System Overview) -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm">
+<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-space-md mb-space-md">
+<div>
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-primary animate-ping"></span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold">Trạng thái xử lý tài liệu &amp; Pipeline RAG</h2>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Đánh chỉ mục Embedding text-embedding-3-small, OCR đa lớp &amp; lưu trữ Milvus VectorDB</p>
+</div>
+<!-- Metric Quick Pill Indicators -->
+<div class="flex flex-wrap items-center gap-space-xs">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-label-sm font-semibold bg-emerald-50 text-emerald-700">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          Sẵn sàng: 318 (93.0%)
+        </span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-label-sm font-semibold bg-amber-50 text-amber-700">
+<span class="w-2 h-2 rounded-full bg-amber-500 animate-spin"></span>
+          Đang xử lý: 16 (4.7%)
+        </span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-label-sm font-semibold bg-rose-50 text-rose-700">
+<span class="w-2 h-2 rounded-full bg-rose-500"></span>
+          Thất bại: 8 (2.3%)
+        </span>
+</div>
+</div>
+<!-- Segmented Ant Design v5 Progress Bar -->
+<div class="w-full space-y-2">
+<div class="h-3 w-full bg-surface-container rounded-full overflow-hidden flex p-0.5 shadow-inner">
+<!-- Ready: 93% -->
+<div class="h-full bg-emerald-500 rounded-l-full transition-all duration-500" style="width: 93.0%" title="READY: 318"></div>
+<!-- Processing: 4.7% -->
+<div class="h-full bg-amber-500 mx-0.5 transition-all duration-500" style="width: 4.7%" title="PROCESSING: 16"></div>
+<!-- Failed: 2.3% -->
+<div class="h-full bg-rose-500 rounded-r-full transition-all duration-500" style="width: 2.3%" title="FAILED: 8"></div>
+</div>
+<div class="flex items-center justify-between text-label-sm font-label-sm text-on-surface-variant pt-1 px-0.5">
+<div class="flex items-center gap-4">
+<span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-emerald-500 inline-block"></span> READY (318 Docs)</span>
+<span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-amber-500 inline-block"></span> PROCESSING (16 Ingesting)</span>
+<span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-rose-500 inline-block"></span> FAILED (8 Requires OCR Review)</span>
+</div>
+<span class="font-code-sm text-code-sm font-medium">Tổng: 342 tệp (100%)</span>
+</div>
+</div>
+<!-- Mini Visual Health Indicators -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm mt-space-md pt-space-md bg-surface-container-low/50 rounded-xl p-space-sm">
+<div class="flex items-center gap-3 px-3 py-2 bg-surface-container-lowest rounded-lg">
+<div class="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
+<span class="material-symbols-outlined text-[20px]">task_alt</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">Tỉ lệ hoàn tất Vector hóa</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">93.0% thông suốt hoàn hảo</span>
+</div>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 bg-surface-container-lowest rounded-lg">
+<div class="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600">
+<span class="material-symbols-outlined text-[20px]">sync</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">Hàng đợi chuyển ngữ Chunking</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">16 tệp (~3.4 phút còn lại)</span>
+</div>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 bg-surface-container-lowest rounded-lg">
+<div class="w-8 h-8 rounded-lg bg-rose-50 flex items-center justify-center text-rose-600">
+<span class="material-symbols-outlined text-[20px]">report_problem</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">Tài liệu lỗi định dạng</span>
+<span class="font-code-sm text-code-sm text-rose-700">8 tệp cần xử lý thủ công</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Dual Split Compact Tables (Ant Design v5 Layout) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md">
+<!-- Left Column: Người dùng mới (5 cols on lg) -->
+<div class="lg:col-span-5 bg-surface-container-lowest rounded-xl shadow-sm flex flex-col">
+<!-- Card Header -->
+<div class="px-space-md py-space-sm flex items-center justify-between bg-surface-container-low/40 rounded-t-xl">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">person_add</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Người dùng mới</h3>
+</div>
+<a class="inline-flex items-center gap-1 font-label-sm text-label-sm text-primary hover:text-secondary-container transition-colors font-semibold" data-path="admin-users" href="#">
+<span class="">Xem tất cả</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<!-- Compact User List -->
+<div class="p-space-sm flex flex-col divide-y divide-surface-container overflow-x-auto"><div class="flex flex-col divide-y divide-surface-container min-w-[340px]"><div class="flex items-center justify-between p-space-sm hover:bg-surface-container-low/60 rounded-lg transition-colors py-2.5 px-2 whitespace-nowrap gap-3"><div class="flex items-center gap-3 min-w-0 flex-1"><div class="w-9 h-9 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-bold text-label-md flex-shrink-0">TB</div><div class="flex flex-col min-w-0"><span class="font-label-md text-[13px] font-semibold text-on-surface truncate">Trần Bảo Ngọc</span><span class="font-code-sm text-[11px] text-on-surface-variant truncate">ngoc.tran@uit.edu.vn</span></div></div><div class="flex flex-col items-end gap-1 flex-shrink-0 ml-2 whitespace-nowrap"><span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-label-sm font-semibold bg-emerald-50 text-emerald-700">Hoạt động</span><span class="font-label-sm text-on-surface-variant text-[11px]">15 phút trước</span></div></div><div class="flex items-center justify-between p-space-sm hover:bg-surface-container-low/60 rounded-lg transition-colors py-2.5 px-2 whitespace-nowrap gap-3"><div class="flex items-center gap-3 min-w-0 flex-1"><div class="w-9 h-9 rounded-full bg-secondary-fixed flex items-center justify-center text-secondary font-bold text-label-md flex-shrink-0">LH</div><div class="flex flex-col min-w-0"><span class="font-label-md text-[13px] font-semibold text-on-surface truncate">Lê Hoàng Nam</span><span class="font-code-sm text-[11px] text-on-surface-variant truncate">nam.le@fpt.com</span></div></div><div class="flex flex-col items-end gap-1 flex-shrink-0 ml-2 whitespace-nowrap"><span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-label-sm font-semibold bg-emerald-50 text-emerald-700">Hoạt động</span><span class="font-label-sm text-on-surface-variant text-[11px]">2 giờ trước</span></div></div><div class="flex items-center justify-between p-space-sm hover:bg-surface-container-low/60 rounded-lg transition-colors py-2.5 px-2 whitespace-nowrap gap-3"><div class="flex items-center gap-3 min-w-0 flex-1"><div class="w-9 h-9 rounded-full bg-error-container flex items-center justify-center text-error font-bold text-label-md flex-shrink-0">VM</div><div class="flex flex-col min-w-0"><span class="font-label-md text-[13px] font-semibold text-on-surface truncate">Vũ Minh Quân</span><span class="font-code-sm text-[11px] text-on-surface-variant truncate">quan.vu@vnu.edu.vn</span></div></div><div class="flex flex-col items-end gap-1 flex-shrink-0 ml-2 whitespace-nowrap"><span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-label-sm font-semibold bg-rose-50 text-rose-700">Đã khóa</span><span class="font-label-sm text-on-surface-variant text-[11px]">Hôm qua</span></div></div><div class="flex items-center justify-between p-space-sm hover:bg-surface-container-low/60 rounded-lg transition-colors py-2.5 px-2 whitespace-nowrap gap-3"><div class="flex items-center gap-3 min-w-0 flex-1"><div class="w-9 h-9 rounded-full bg-tertiary-fixed flex items-center justify-center text-tertiary font-bold text-label-md flex-shrink-0">ĐT</div><div class="flex flex-col min-w-0"><span class="font-label-md text-[13px] font-semibold text-on-surface truncate">Đỗ Thanh Thảo</span><span class="font-code-sm text-[11px] text-on-surface-variant truncate">thao.do@techcorp.vn</span></div></div><div class="flex flex-col items-end gap-1 flex-shrink-0 ml-2 whitespace-nowrap"><span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-label-sm font-semibold bg-emerald-50 text-emerald-700">Hoạt động</span><span class="font-label-sm text-on-surface-variant text-[11px]">2 ngày trước</span></div></div></div></div>
+</div>
+<!-- Right Column: Tài liệu gần đây (7 cols on lg) -->
+<div class="lg:col-span-7 bg-surface-container-lowest rounded-xl shadow-sm flex flex-col">
+<!-- Card Header -->
+<div class="px-space-md py-space-sm flex items-center justify-between bg-surface-container-low/40 rounded-t-xl">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">folder_open</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Tài liệu gần đây</h3>
+</div>
+<a class="inline-flex items-center gap-1 font-label-sm text-label-sm text-primary hover:text-secondary-container transition-colors font-semibold" data-path="admin-documents" href="#">
+<span class="">Xem tất cả</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<!-- Compact Document Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left text-body-sm font-body-sm min-w-[540px]"><thead class="bg-surface-container-low/80 text-on-surface-variant font-label-sm uppercase text-[11px] tracking-wider whitespace-nowrap"><tr><th class="py-2.5 px-4 font-semibold whitespace-nowrap" scope="col">Tài liệu</th><th class="py-2.5 px-3 font-semibold whitespace-nowrap" scope="col">Người tải</th><th class="py-2.5 px-3 font-semibold whitespace-nowrap" scope="col">Quy mô</th><th class="py-2.5 px-3 font-semibold whitespace-nowrap" scope="col">Trạng thái</th><th class="py-2.5 px-4 font-semibold text-right whitespace-nowrap" scope="col">Thời gian</th></tr></thead><tbody class="divide-y divide-surface-container"><tr class="hover:bg-surface-container-low/50 transition-colors whitespace-nowrap"><td class="py-3 px-4 whitespace-nowrap"><div class="flex items-center gap-2.5 min-w-0"><div class="w-7 h-7 rounded bg-red-100 flex items-center justify-center text-red-600 flex-shrink-0"><span class="material-symbols-outlined text-[18px]">picture_as_pdf</span></div><span class="font-label-md text-[13px] font-semibold text-on-surface truncate max-w-[170px] whitespace-nowrap" title="Bao_cao_tai_chinh_2024.pdf">Bao_cao_tai_chinh_2024.pdf</span></div></td><td class="py-3 px-3 text-on-surface whitespace-nowrap text-[13px]">Trần Bảo Ngọc</td><td class="py-3 px-3 font-code-sm text-[12px] text-on-surface-variant whitespace-nowrap">4.8 MB · 64 tr</td><td class="py-3 px-3 whitespace-nowrap"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-label-sm font-semibold bg-emerald-50 text-emerald-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0"></span> Sẵn sàng</span></td><td class="py-3 px-4 text-right text-on-surface-variant font-label-sm text-[11px] whitespace-nowrap">25 phút trước</td></tr><tr class="hover:bg-surface-container-low/50 transition-colors whitespace-nowrap"><td class="py-3 px-4 whitespace-nowrap"><div class="flex items-center gap-2.5 min-w-0"><div class="w-7 h-7 rounded bg-red-100 flex items-center justify-center text-red-600 flex-shrink-0"><span class="material-symbols-outlined text-[18px]">picture_as_pdf</span></div><span class="font-label-md text-[13px] font-semibold text-on-surface truncate max-w-[170px] whitespace-nowrap" title="Giao_trinh_Hoc_Sau_v2.pdf">Giao_trinh_Hoc_Sau_v2.pdf</span></div></td><td class="py-3 px-3 text-on-surface whitespace-nowrap text-[13px]">Lê Hoàng Nam</td><td class="py-3 px-3 font-code-sm text-[12px] text-on-surface-variant whitespace-nowrap">18.2 MB · 210 tr</td><td class="py-3 px-3 whitespace-nowrap"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-label-sm font-semibold bg-amber-50 text-amber-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse flex-shrink-0"></span> Đang xử lý</span></td><td class="py-3 px-4 text-right text-on-surface-variant font-label-sm text-[11px] whitespace-nowrap">1 giờ trước</td></tr><tr class="hover:bg-surface-container-low/50 transition-colors whitespace-nowrap"><td class="py-3 px-4 whitespace-nowrap"><div class="flex items-center gap-2.5 min-w-0"><div class="w-7 h-7 rounded bg-red-100 flex items-center justify-center text-red-600 flex-shrink-0"><span class="material-symbols-outlined text-[18px]">picture_as_pdf</span></div><span class="font-label-md text-[13px] font-semibold text-on-surface truncate max-w-[170px] whitespace-nowrap" title="Hop_dong_thuong_mai_QT.pdf">Hop_dong_thuong_mai_QT.pdf</span></div></td><td class="py-3 px-3 text-on-surface whitespace-nowrap text-[13px]">Đỗ Thanh Thảo</td><td class="py-3 px-3 font-code-sm text-[12px] text-on-surface-variant whitespace-nowrap">2.1 MB · 18 tr</td><td class="py-3 px-3 whitespace-nowrap"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-label-sm font-semibold bg-emerald-50 text-emerald-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0"></span> Sẵn sàng</span></td><td class="py-3 px-4 text-right text-on-surface-variant font-label-sm text-[11px] whitespace-nowrap">3 giờ trước</td></tr><tr class="hover:bg-surface-container-low/50 transition-colors whitespace-nowrap"><td class="py-3 px-4 whitespace-nowrap"><div class="flex items-center gap-2.5 min-w-0"><div class="w-7 h-7 rounded bg-red-100 flex items-center justify-center text-red-600 flex-shrink-0"><span class="material-symbols-outlined text-[18px]">picture_as_pdf</span></div><span class="font-label-md text-[13px] font-semibold text-on-surface truncate max-w-[170px] whitespace-nowrap" title="Scan_chung_tu_bi_loi.pdf">Scan_chung_tu_bi_loi.pdf</span></div></td><td class="py-3 px-3 text-on-surface whitespace-nowrap text-[13px]">Vũ Minh Quân</td><td class="py-3 px-3 font-code-sm text-[12px] text-on-surface-variant whitespace-nowrap">32.0 MB · 45 tr</td><td class="py-3 px-3 whitespace-nowrap"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-label-sm font-semibold bg-rose-50 text-rose-700 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-rose-500 flex-shrink-0"></span> Thất bại</span></td><td class="py-3 px-4 text-right text-on-surface-variant font-label-sm text-[11px] whitespace-nowrap">Hôm qua</td></tr></tbody></table>
+</div>
+</div>
+</div>
+<!-- Vector Database & Infrastructure Health Banner -->
+<div class="bg-surface-container-low rounded-xl p-space-md flex flex-col md:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined text-[24px]">database</span>
+</div>
+<div>
+<h4 class="font-label-md text-label-md font-bold text-on-surface">Milvus Cluster &amp; Embedding Model v3</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Độ trễ trung bình vector query: 38ms · 128,400 chunks đã nhúng · Bộ nhớ đệm 84% khả dụng</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-1 rounded bg-surface-container-lowest text-on-surface font-code-sm text-code-sm shadow-sm">
+        Index: HNSW_M16_EF64
+      </span>
+<span class="px-2.5 py-1 rounded bg-emerald-100 text-emerald-800 font-label-sm text-label-sm font-bold">
+        Synced
+      </span>
+</div>
+</div>
+</div>
+<script>
+  function refreshData() {
+    const btn = event.currentTarget;
+    const icon = btn.querySelector('.material-symbols-outlined');
+    if (icon) {
+      icon.classList.add('animate-spin');
+      setTimeout(() => {
+        icon.classList.remove('animate-spin');
+      }, 700);
+    }
+  }
+</script></main></div>
+
+
+
+</body></html>
