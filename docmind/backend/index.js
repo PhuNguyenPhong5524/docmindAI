@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-
+import mongoose from "mongoose";
 dotenv.config();
 
 const app = express();
@@ -41,7 +41,10 @@ app.get("/", (req, res) => {
     message: "Backend Node.js/Express đang chạy thành công!",
   });
 });
-
+// Kết nối MongoDB
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log('Connected to MongoDB successfully!'))
+  .catch((err) => console.error('MongoDB connection error:', err));
 // Khởi chạy HTTP Server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
