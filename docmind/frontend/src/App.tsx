@@ -17,16 +17,15 @@ import AdminLayout from './layouts/admin/AdminLayout';
 import AdminDashboardPage from './pages/admin/dashboard/AdminDashboardPage';
 import AdminUserPage from './pages/admin/users/AdminUserPage';
 import AdminDocumentPage from './pages/admin/documents/AdminDocumentPage';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-// Demo Placeholder Components cho các trang chưa làm
-const Placeholder = ({ title }: { title: string }) => (
-  <div className="p-8 text-on-surface font-semibold text-lg">{title}</div>
-);
+const queryClient = new QueryClient();
 
 export const App: React.FC = () => {
   return (
-    <BrowserRouter>
-      <Routes>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Routes>
         {/* ==================== PUBLIC AUTH ROUTES ==================== */}
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<LoginPage />} />
@@ -35,7 +34,7 @@ export const App: React.FC = () => {
 
         {/* ==================== USER ROUTES (TRUY CẬP TRỰC TIẾP) ==================== */}
         <Route element={<UserLayout />}>
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/dashboard" element={<UserDashboardPage />} />
           <Route path="/documents" element={<UserDocumentPage />} />
           <Route path="/chat" element={<UserChat />} />
@@ -53,9 +52,10 @@ export const App: React.FC = () => {
         </Route>
 
         {/* ==================== FALLBACK ROUTE ==================== */}
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>
+    </QueryClientProvider>
   );
 };
 
