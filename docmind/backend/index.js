@@ -4,17 +4,21 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 
-// Import các Routes đã được chia nhỏ gọn gàng
+// Import thêm thư viện Socket.IO
+import http from 'http';
+import { Server } from 'socket.io';
+
+// Import Routes
 import authRoutes from './routes/auth.route.js';
 import documentRoutes from './routes/document.route.js';
 import chatRoutes from './routes/chat.route.js';
-
+import adminRoutes from './routes/admin.route.js';
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// Cấu hình CORS (Cho phép Frontend kết nối)
+// Cấu hình CORS
 const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
 const allowedOrigins = new Set([
   FRONTEND_URL,
@@ -26,41 +30,56 @@ const allowedOrigins = new Set([
 
 app.use(
   cors({
-    origin(origin, callback) {
-      if (!origin || allowedOrigins.has(origin)) {
-        return callback(null, true);
-      }
-      return callback(new Error(`Not allowed by CORS: ${origin}`));
-    },
+    origin: Array.from(allowedOrigins),
     credentials: true,
   })
 );
 
-// Middleware xử lý dữ liệu đầu vào
 app.use(cookieParser());
 app.use(express.json());
 
-// ----------------------------------------------------
-// ĐĂNG KÝ CÁC ĐƯỜNG DẪN API (Đã nối sang các file Route riêng)
-// ----------------------------------------------------
-app.use('/api/auth', authRoutes);
-app.use('/api/documents', documentRoutes);
-app.use('/api/chat', chatRoutes);
+// --- KHỞI TẠO HTTP SERVER VÀ SOCKET.IO ---
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: Array.from(allowedOrigins),
+    credentials: true,
+  }
+});
 
-// Route cơ bản để kiểm tra Server có đang sống hay không
-app.get("/", (req, res) => {
-  res.status(200).json({
-    status: "success",
-    message: "Backend Node.js/Express đang chạy thành công!",
+// Lắng nghe các kết nối Realtime từ Frontend
+io.on('connection', (socket) => {
+  console.log('🟢 Một user vừa kết nối Socket.IO:', socket.id);
+
+  // Khi user đăng nhập thành công, FE sẽ gọi hàm này để join vào room riêng biệt
+  socket.on('join_room', (userId) => {
+    socket.join(`user:${userId}`);
+    console.log(`User ${userId} đã join phòng nhận thông báo!`);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('🔴 User ngắt kết nối:', socket.id);
   });
 });
 
-// Kết nối Database MongoDB
+// Đính kèm "io" vào request để các Controller có thể dùng nó bắn thông báo
+app.use((req, res, next) => {
+  req.io = io;
+  next();
+});
+// ------------------------------------------
+
+// Đăng ký API
+app.use('/api/auth', authRoutes);
+app.use('/api/documents', documentRoutes);
+app.use('/api/chat', chatRoutes);
+app.use('/api/admin', adminRoutes);
+// Kết nối MongoDB
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('✅ Connected to MongoDB successfully!'))
   .catch((err) => console.error('❌ MongoDB connection error:', err));
 
-// Khởi chạy HTTP Server
-app.listen(PORT, () => {
-  console.log(`🚀 Server is running on http://localhost:${PORT}`);
+// Chú ý: Đổi app.listen thành server.listen để chạy cả API và Socket cùng lúc
+server.listen(PORT, () => {
+  console.log(`🚀 Server HTTP & Socket.IO is running on http://localhost:${PORT}`);
 });

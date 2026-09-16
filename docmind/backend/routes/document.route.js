@@ -1,5 +1,12 @@
 import express from 'express';
-import { uploadDocument, uploadConfig, getAllDocuments, deleteDocument } from '../controllers/document.controller.js';
+import { 
+  uploadDocument, 
+  uploadConfig, 
+  getAllDocuments, 
+  deleteDocument, 
+  summarizeDocument, 
+  compareDocuments 
+} from '../controllers/document.controller.js';
 
 const router = express.Router();
 
@@ -11,5 +18,11 @@ router.get('/', getAllDocuments);
 
 // Route 3: Xóa file theo ID
 router.delete('/:id', deleteDocument);
+
+// Route 4: Tóm tắt tài liệu
+router.post('/:id/summary', summarizeDocument);
+
+// Route 5: So sánh 2 tài liệu
+router.post('/compare', compareDocuments);
 
 export default router;
