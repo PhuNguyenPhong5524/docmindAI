@@ -2,11 +2,13 @@ import express from "express";
 import cors from "cors";
 import authRoutes from './routes/auth.route.js';
 import documentRoutes from './routes/document.route.js';
+import chatRoutes from './routes/chat.route.js';
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import User from './models/user.model.js';
 import Document from './models/document.model.js';
+
 dotenv.config();
 
 const app = express();
@@ -39,6 +41,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/documents', documentRoutes);
+app.use('/api/chat', chatRoutes);
 // Route cơ bản để kiểm tra server
 app.get("/", (req, res) => {
   res.status(200).json({

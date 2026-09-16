@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-
+import { chunkText } from '../services/chunker.service.js';
 const documentSchema = new mongoose.Schema({
   owner_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   original_name: { type: String, required: true },
