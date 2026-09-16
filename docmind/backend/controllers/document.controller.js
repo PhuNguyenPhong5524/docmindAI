@@ -1,9 +1,10 @@
 import fs from 'fs';
 import multer from 'multer';
 import Document from '../models/document.model.js';
-import Chunk from '../models/chunk.model.js'; // Đã thêm Kho chứa
+import Chunk from '../models/chunk.model.js';
+import Message from '../models/message.model.js'; // Đã bổ sung Message để xóa lịch sử Chat
 import { chunkText } from '../services/chunker.service.js';
-import { generateEmbedding } from '../services/ai.service.js'; // Đã thêm Bộ não AI
+import { generateEmbedding } from '../services/ai.service.js'; 
 import { PDFParse } from 'pdf-parse';
 
 // Cấu hình thư mục lưu file
@@ -86,7 +87,6 @@ export const uploadDocument = async (req, res) => {
 // API Lấy danh sách toàn bộ tài liệu đã tải lên
 export const getAllDocuments = async (req, res) => {
   try {
-    // Tìm tất cả file trong Database, sắp xếp file mới nhất lên đầu (-1)
     const documents = await Document.find().sort({ createdAt: -1 });
     
     res.status(200).json({ 
@@ -96,6 +96,33 @@ export const getAllDocuments = async (req, res) => {
     });
   } catch (error) {
     console.error("Lỗi lấy danh sách tài liệu:", error);
+    res.status(500).json({ success: false, message: 'Lỗi hệ thống: ' + error.message });
+  }
+};
+
+// API Xóa tài liệu và toàn bộ dữ liệu liên quan (Chunks, Messages)
+export const deleteDocument = async (req, res) => {
+  try {
+    const documentId = req.params.id;
+
+    const document = await Document.findById(documentId);
+    if (!document) {
+      return res.status(404).json({ success: false, message: 'Không tìm thấy tài liệu này!' });
+    }
+
+    // Dọn rác: Xóa toàn bộ Chunks và Lịch sử Chat của file này
+    await Chunk.deleteMany({ document_id: documentId });
+    await Message.deleteMany({ document_id: documentId });
+    
+    // Xóa file trong bảng Document
+    await Document.findByIdAndDelete(documentId);
+
+    res.status(200).json({ 
+      success: true, 
+      message: 'Đã xóa tài liệu và dọn dẹp bộ nhớ AI thành công!' 
+    });
+  } catch (error) {
+    console.error("Lỗi khi xóa tài liệu:", error);
     res.status(500).json({ success: false, message: 'Lỗi hệ thống: ' + error.message });
   }
 };

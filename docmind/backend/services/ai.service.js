@@ -19,7 +19,7 @@ export const generateEmbedding = async (text) => {
     throw error;
   }
 };
-// Hàm đọc tài liệu và sinh ra câu trả lời (Dùng model xịn gemini-3.6-flash)
+// Hàm đọc tài liệu và sinh ra câu trả lời ( model gemini-3.6-flash)
 export const generateAnswer = async (context, question) => {
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-3.6-flash" });

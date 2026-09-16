@@ -1,20 +1,20 @@
 import express from "express";
 import cors from "cors";
-import authRoutes from './routes/auth.route.js';
-import documentRoutes from './routes/document.route.js';
-import chatRoutes from './routes/chat.route.js';
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
-import User from './models/user.model.js';
-import Document from './models/document.model.js';
+
+// Import các Routes đã được chia nhỏ gọn gàng
+import authRoutes from './routes/auth.route.js';
+import documentRoutes from './routes/document.route.js';
+import chatRoutes from './routes/chat.route.js';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// Cấu hình CORS
+// Cấu hình CORS (Cho phép Frontend kết nối)
 const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
 const allowedOrigins = new Set([
   FRONTEND_URL,
@@ -33,16 +33,21 @@ app.use(
       return callback(new Error(`Not allowed by CORS: ${origin}`));
     },
     credentials: true,
-  }),
+  })
 );
 
 // Middleware xử lý dữ liệu đầu vào
 app.use(cookieParser());
 app.use(express.json());
+
+// ----------------------------------------------------
+// ĐĂNG KÝ CÁC ĐƯỜNG DẪN API (Đã nối sang các file Route riêng)
+// ----------------------------------------------------
 app.use('/api/auth', authRoutes);
 app.use('/api/documents', documentRoutes);
 app.use('/api/chat', chatRoutes);
-// Route cơ bản để kiểm tra server
+
+// Route cơ bản để kiểm tra Server có đang sống hay không
 app.get("/", (req, res) => {
   res.status(200).json({
     status: "success",
@@ -50,36 +55,10 @@ app.get("/", (req, res) => {
   });
 });
 
-// Kết nối MongoDB (Đã ghép nối với file .env của Tiến)
+// Kết nối Database MongoDB
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('✅ Connected to MongoDB successfully!'))
   .catch((err) => console.error('❌ MongoDB connection error:', err));
-
-// API Đăng ký tài khoản (Đã đồng bộ trường full_name theo Business Rule)
-app.post('/api/auth/register', async (req, res) => {
-  try {
-    const { full_name, email, password } = req.body; 
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ success: false, message: 'Email đã được sử dụng!' });
-    }
-    const newUser = new User({ full_name, email, password });
-    await newUser.save();
-    res.status(201).json({ success: true, message: 'Đăng ký thành công!' });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-});
-
-// API lấy danh sách document
-app.get('/api/documents', async (req, res) => {
-  try {
-    const documents = await Document.find();
-    res.status(200).json({ success: true, data: documents });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-});  
 
 // Khởi chạy HTTP Server
 app.listen(PORT, () => {
