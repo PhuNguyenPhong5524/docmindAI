@@ -18,6 +18,10 @@ export const login = async (
   return data;
 };
 
+export const logout = async (): Promise<void> => {
+  await api.post("/api/auth/logout");
+};
+
 export const register = async (
   payload: RegisterPayload
 ): Promise<RegisterResponse> => {

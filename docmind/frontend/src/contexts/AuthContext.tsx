@@ -9,13 +9,14 @@ import {
 } from "react";
 
 import type { AuthUser, UserRole } from "../types/auth";
+import { logout as logoutService } from "../services/authService";
 
 interface AuthContextType {
   user: AuthUser | null;
   isAuthenticated: boolean;
 
   setUser: (user: AuthUser | null) => void;
-  logout: () => void;
+  logout: () => Promise<void>;
 
   hasAnyRole: (roles: UserRole[]) => boolean;
 }
@@ -59,7 +60,8 @@ export const AuthProvider = ({
       return JSON.parse(storedUser) as AuthUser;
     });
 
-  const logout = () => {
+  const logout = async () => {
+    await logoutService();
     localStorage.removeItem("accessToken");
     localStorage.removeItem("user");
 

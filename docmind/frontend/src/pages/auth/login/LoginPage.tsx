@@ -144,9 +144,7 @@ export const LoginPage: React.FC = () => {
   };
 
 
- const handleLogin = async (
-  values: LoginFormValues
-) => {
+const handleLogin = async (values: LoginFormValues) => {
   setAuthState("default");
   setErrorMessage("");
   setIsLoggingIn(true);
@@ -154,77 +152,44 @@ export const LoginPage: React.FC = () => {
   const startTime = Date.now();
 
   try {
-    const payload = {
+    const data = await loginMutation.mutateAsync({
       email: values.email.trim(),
       password: values.password,
-    };
+    });
 
-    // Gọi API thật
-    const data =
-      await loginMutation.mutateAsync(payload);
-
-    // Đảm bảo loading hiển thị ít nhất 800ms
-    const elapsedTime =
-      Date.now() - startTime;
-
-    const remainingTime =
-      MIN_LOADING_TIME - elapsedTime;
+    const remainingTime = MIN_LOADING_TIME - (Date.now() - startTime);
 
     if (remainingTime > 0) {
       await delay(remainingTime);
     }
 
-    // Lưu dữ liệu thật
-    localStorage.setItem(
-      "accessToken",
-      data.accessToken
-    );
-
-    localStorage.setItem(
-      "user",
-      JSON.stringify(data.user)
-    );
+    localStorage.setItem("accessToken", data.accessToken);
+    localStorage.setItem("user", JSON.stringify(data.user));
 
     setUser(data.user);
 
-    // Redirect theo role
     if (data.user.role === "ADMIN") {
-      navigate("/admin", {
-        replace: true,
-      });
-
+      navigate("/admin/dashboard", { replace: true });
       return;
     }
 
-    navigate("/", {
-      replace: true,
-    });
-
+    navigate("/dashboard", { replace: true });
   } catch (error) {
-
-    const elapsedTime =
-      Date.now() - startTime;
-
-    const remainingTime =
-      MIN_LOADING_TIME - elapsedTime;
+    const remainingTime = MIN_LOADING_TIME - (Date.now() - startTime);
 
     if (remainingTime > 0) {
       await delay(remainingTime);
     }
 
-    const result =
-      getErrorMessage(error);
+    const result = getErrorMessage(error);
 
     setAuthState(result.state);
-
-    setErrorMessage(
-      result.message
-    );
-
+    setErrorMessage(result.message);
   } finally {
     setIsLoggingIn(false);
   }
 };
+
 
   return (
     <ConfigProvider

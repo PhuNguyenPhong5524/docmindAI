@@ -31,8 +31,8 @@ export interface IUser {
 
 export interface AuthUser {
   _id: string;
-  email: string;
   full_name: string;
+  email: string;
   role: UserRole;
 }
 

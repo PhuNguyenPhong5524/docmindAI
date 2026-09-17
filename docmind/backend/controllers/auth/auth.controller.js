@@ -178,12 +178,47 @@ export const login = async (req, res) => {
       accessToken,
       user: {
         _id: user._id,
+        full_name: user.full_name,
         email: user.email,
-        username: user.username,
         role: user.role,
       },
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+export const logout = async (req, res) => {
+  try {
+    const refreshToken = req.cookies?.refreshToken;
+
+    if (refreshToken) {
+      await User.findOneAndUpdate(
+        { refreshToken },
+        { refreshToken: null }
+      );
+    }
+       // trả data cho frontend
+    //local
+    // res.cookie("refreshToken", refreshToken, {
+    //   httpOnly: true,
+    //   secure: false, // true nếu deploy HTTPS
+    //   sameSite: "strict",
+    //   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 ngày
+    // });
+    // deploy
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
+
+    return res.status(200).json({
+      message: "Đăng xuất thành công",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Đăng xuất thất bại",
+    });
   }
 };
