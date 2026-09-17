@@ -11,7 +11,7 @@ export const login = async (
   payload: LoginPayload
 ): Promise<LoginResponse> => {
   const { data } = await api.post<LoginResponse>(
-    "api/auth/login",
+    "/api/auth/login",
     payload
   );
 
@@ -22,10 +22,9 @@ export const register = async (
   payload: RegisterPayload
 ): Promise<RegisterResponse> => {
   const { data } = await api.post<RegisterResponse>(
-    "api/auth/register",
+    "/api/auth/register",
     payload
   );
-
   return data;
 };
 

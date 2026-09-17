@@ -6,8 +6,8 @@ import { AuthLayout } from './layouts/AuthLayout';
 import { UserLayout } from './layouts/user/UserLayout';
 
 // Pages
-import { LoginPage } from './pages/auth/LoginPage';
-import { RegisterPage } from './pages/auth/RegisterPage';
+import { LoginPage } from './pages/auth/login/LoginPage';
+import { RegisterPage } from './pages/auth/register/RegisterPage';
 import { UserDocumentPage } from './pages/user/documents/UserDocumentPage';
 import UserChat from './pages/user/chatRag/UserChatPage';
 import UserDashboardPage from './pages/user/dashboard/UserDashboardPage';

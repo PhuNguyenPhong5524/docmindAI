@@ -6,6 +6,7 @@ export type UserRole = "USER" | "ADMIN";
 
 export type UserStatus = "ACTIVE" | "BLOCKED";
 
+
 // =========================
 // User Types
 // =========================
@@ -23,6 +24,7 @@ export interface IUser {
   updated_at: string;
 }
 
+
 // =========================
 // Auth User
 // =========================
@@ -30,8 +32,10 @@ export interface IUser {
 export interface AuthUser {
   _id: string;
   email: string;
+  full_name: string;
   role: UserRole;
 }
+
 
 // =========================
 // Login
@@ -47,6 +51,7 @@ export interface LoginResponse {
   user: AuthUser;
 }
 
+
 // =========================
 // Register
 // =========================
@@ -55,12 +60,22 @@ export interface RegisterPayload {
   full_name: string;
   email: string;
   password: string;
+  confirmPassword: string;
+}
+
+export interface RegisterUser {
+  _id: string;
+  full_name: string;
+  email: string;
+  role: UserRole;
+  isActive: boolean;
 }
 
 export interface RegisterResponse {
-  success: boolean;
   message: string;
+  user: RegisterUser;
 }
+
 
 // =========================
 // Refresh Token
@@ -70,6 +85,7 @@ export interface RefreshTokenResponse {
   accessToken: string;
   user?: AuthUser;
 }
+
 
 // =========================
 // Auth Store
