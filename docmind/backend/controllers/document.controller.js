@@ -100,6 +100,24 @@ const getSafeDevError = (error) => {
   return error.message;
 };
 
+const deleteUploadedFile = async (fileUrl) => {
+  if (!fileUrl) return;
+
+  const uploadsRoot = path.resolve(UPLOAD_DIR);
+  const filePath = path.resolve(fileUrl);
+
+  if (!filePath.startsWith(`${uploadsRoot}${path.sep}`)) {
+    console.warn(`Bo qua xoa file ngoai thu muc uploads: ${fileUrl}`);
+    return;
+  }
+
+  await fs.promises.unlink(filePath).catch((error) => {
+    if (error.code !== 'ENOENT') {
+      throw error;
+    }
+  });
+};
+
 export const uploadDocument = async (req, res) => {
   let document = null;
 
@@ -220,6 +238,7 @@ export const deleteDocument = async (req, res) => {
     await Chunk.deleteMany({ document_id: documentId });
     await Message.deleteMany({ document_id: documentId });
     await Document.findByIdAndDelete(documentId);
+    await deleteUploadedFile(document.file_url);
 
     res.status(200).json({ success: true, message: 'Da xoa tai lieu!' });
   } catch (error) {

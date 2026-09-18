@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Modal, message, Progress, Tag, Button } from 'antd';
 import {
   FolderOpenOutlined,
