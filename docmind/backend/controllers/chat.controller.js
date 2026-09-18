@@ -1,6 +1,6 @@
 import Chunk from '../models/chunk.model.js';
 import Message from '../models/message.model.js';
-import { generateEmbedding, generateAnswer } from '../services/ai.service.js';
+import { generateDocumentEmbedding, generateAnswer } from '../services/ai.service.js';
 
 // 1. Gửi câu hỏi và lưu lại lịch sử
 export const askQuestion = async (req, res) => {
@@ -13,7 +13,7 @@ export const askQuestion = async (req, res) => {
     
     console.log(`\n--- CÓ CÂU HỎI MỚI: "${question}" ---`);
 
-    const questionVector = await generateEmbedding(question);
+    const questionVector = await generateDocumentEmbedding(question);
     
     const searchResults = await Chunk.aggregate([
       {
