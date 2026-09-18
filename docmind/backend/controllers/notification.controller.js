@@ -1,39 +1,81 @@
+import mongoose from 'mongoose';
 import Notification from '../models/notification.model.js';
 
-// API 1: Lấy danh sách thông báo của User
+const getCurrentUserId = (req) => req.user?.userId;
+
 export const getUserNotifications = async (req, res) => {
   try {
-    // Trong MVP demo, giả sử cứng ID của user hiện tại (giống lúc upload)
-    const userId = "66f1234567890abcdef12345"; 
-    
-    const notifications = await Notification.find({ user_id: userId }).sort({ createdAt: -1 });
-    const unreadCount = await Notification.countDocuments({ user_id: userId, is_read: false });
+    const userId = getCurrentUserId(req);
 
-    res.status(200).json({ 
-      success: true, 
+    if (!userId) {
+      return res.status(401).json({ success: false, message: 'Khong xac dinh duoc nguoi dung.' });
+    }
+
+    const [notifications, unreadCount] = await Promise.all([
+      Notification.find({ user_id: userId }).sort({ createdAt: -1 }),
+      Notification.countDocuments({ user_id: userId, is_read: false })
+    ]);
+
+    return res.status(200).json({
+      success: true,
       unread_count: unreadCount,
-      data: notifications 
+      data: notifications
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Lỗi hệ thống: ' + error.message });
+    return res.status(500).json({ success: false, message: 'Loi he thong: ' + error.message });
   }
 };
 
-// API 2: Đánh dấu đã đọc
 export const markAsRead = async (req, res) => {
   try {
-    const notificationId = req.params.id;
-    const notification = await Notification.findById(notificationId);
-    
-    if (!notification) {
-      return res.status(404).json({ success: false, message: 'Không tìm thấy thông báo!' });
+    const userId = getCurrentUserId(req);
+
+    if (!userId) {
+      return res.status(401).json({ success: false, message: 'Khong xac dinh duoc nguoi dung.' });
     }
 
-    notification.is_read = true;
-    await notification.save();
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      return res.status(404).json({ success: false, message: 'Khong tim thay thong bao.' });
+    }
 
-    res.status(200).json({ success: true, message: 'Đã đánh dấu đọc!' });
+    const notification = await Notification.findOneAndUpdate(
+      { _id: req.params.id, user_id: userId },
+      { is_read: true },
+      { new: true }
+    );
+
+    if (!notification) {
+      return res.status(404).json({ success: false, message: 'Khong tim thay thong bao.' });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Da danh dau thong bao la da doc.',
+      data: notification
+    });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Lỗi hệ thống: ' + error.message });
+    return res.status(500).json({ success: false, message: 'Loi he thong: ' + error.message });
+  }
+};
+
+export const markAllAsRead = async (req, res) => {
+  try {
+    const userId = getCurrentUserId(req);
+
+    if (!userId) {
+      return res.status(401).json({ success: false, message: 'Khong xac dinh duoc nguoi dung.' });
+    }
+
+    await Notification.updateMany(
+      { user_id: userId, is_read: false },
+      { is_read: true }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: 'Da danh dau tat ca thong bao la da doc.'
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Loi he thong: ' + error.message });
   }
 };

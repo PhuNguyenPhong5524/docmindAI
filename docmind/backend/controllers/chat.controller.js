@@ -1,63 +1,149 @@
-import Chunk from '../models/chunk.model.js';
+import mongoose from 'mongoose';
+import Document from '../models/document.model.js';
 import Message from '../models/message.model.js';
-import { generateDocumentEmbedding, generateAnswer } from '../services/ai.service.js';
+import { generateAnswer } from '../services/ai.service.js';
+import { retrieveRelevantChunks } from '../services/retrieval.service.js';
 
-// 1. Gửi câu hỏi và lưu lại lịch sử
+const NOT_FOUND_ANSWER = 'Tôi không tìm thấy thông tin này trong các tài liệu đã chọn.';
+
+const getCurrentUserId = (req) => req.user?.userId;
+
+const buildContext = (chunks) => chunks
+  .map((chunk) => `[Trang ${chunk.page_number}]\n${chunk.text_content}`)
+  .join('\n\n');
+
+const buildCitations = (chunks, document) => {
+  const seen = new Set();
+
+  return chunks.reduce((citations, chunk) => {
+    const key = `${chunk.document_id}:${chunk.page_number}`;
+
+    if (seen.has(key)) return citations;
+    seen.add(key);
+
+    citations.push({
+      document_id: document._id,
+      document_name: document.display_name || document.original_name,
+      page_number: chunk.page_number,
+      excerpt: chunk.text_content.slice(0, 300)
+    });
+
+    return citations;
+  }, []);
+};
+
+const saveChatMessages = async ({ userId, documentId, question, answer, citations }) => {
+  await Message.create([
+    {
+      user_id: userId,
+      document_id: documentId,
+      role: 'user',
+      content: question
+    },
+    {
+      user_id: userId,
+      document_id: documentId,
+      role: 'ai',
+      content: answer,
+      citations
+    }
+  ]);
+};
+
 export const askQuestion = async (req, res) => {
   try {
+    const userId = getCurrentUserId(req);
     const { document_id, question } = req.body;
-    
-    if (!question || !document_id) {
-      return res.status(400).json({ success: false, message: 'Thiếu câu hỏi hoặc ID tài liệu!' });
-    }
-    
-    console.log(`\n--- CÓ CÂU HỎI MỚI: "${question}" ---`);
 
-    const questionVector = await generateDocumentEmbedding(question);
-    
-    const searchResults = await Chunk.aggregate([
-      {
-        "$vectorSearch": {
-          "index": "vector_index",
-          "path": "embedding",
-          "queryVector": questionVector,
-          "numCandidates": 100,
-          "limit": 3
-        }
+    if (!userId) {
+      return res.status(401).json({ success: false, message: 'Không xác định được người dùng.' });
+    }
+
+    if (!document_id || !question?.trim()) {
+      return res.status(400).json({ success: false, message: 'Thiếu document_id hoặc question.' });
+    }
+
+    if (!mongoose.isValidObjectId(document_id)) {
+      return res.status(400).json({ success: false, message: 'document_id không hợp lệ.' });
+    }
+
+    const document = await Document.findOne({
+      _id: document_id,
+      owner_id: userId
+    });
+
+    if (!document) {
+      return res.status(404).json({ success: false, message: 'Không tìm thấy tài liệu.' });
+    }
+
+    if (document.status !== 'READY') {
+      return res.status(409).json({
+        success: false,
+        message: 'Tài liệu chưa sẵn sàng để hỏi AI.'
+      });
+    }
+
+    const chunks = await retrieveRelevantChunks(document._id, question.trim(), 5);
+    let answer = NOT_FOUND_ANSWER;
+    let citations = [];
+
+    if (chunks.length > 0) {
+      const context = buildContext(chunks);
+      answer = await generateAnswer(context, question.trim());
+
+      if (!answer.includes(NOT_FOUND_ANSWER) && !answer.toLowerCase().includes('không tìm thấy')) {
+        citations = buildCitations(chunks, document);
       }
-    ]);
-
-    let answer = "Không tìm thấy thông tin nào liên quan trong tài liệu.";
-    if (searchResults && searchResults.length > 0) {
-      const context = searchResults.map(doc => doc.text_content).join('\n\n');
-      answer = await generateAnswer(context, question);
     }
 
-    // --- ĐIỂM MỚI: Lưu 2 tin nhắn vào Database ---
-    await Message.create([
-      { document_id: document_id, role: 'user', content: question },
-      { document_id: document_id, role: 'ai', content: answer }
-    ]);
+    await saveChatMessages({
+      userId,
+      documentId: document._id,
+      question: question.trim(),
+      answer,
+      citations
+    });
 
-    console.log("Đã trả lời và lưu lịch sử thành công!\n");
-    res.status(200).json({ success: true, answer: answer });
-
+    return res.status(200).json({
+      success: true,
+      answer,
+      citations
+    });
   } catch (error) {
-    console.error("Lỗi Chat API:", error);
-    res.status(500).json({ success: false, message: 'Lỗi hệ thống: ' + error.message });
+    console.error('Loi Chat API:', error.message);
+    return res.status(500).json({ success: false, message: 'Không thể xử lý câu hỏi.' });
   }
 };
 
-// 2. API mới: Lấy lịch sử chat để hiển thị lên giao diện
 export const getChatHistory = async (req, res) => {
   try {
+    const userId = getCurrentUserId(req);
     const { document_id } = req.params;
-    
-    // Tìm tất cả tin nhắn của file này, sắp xếp theo thời gian cũ -> mới
-    const history = await Message.find({ document_id }).sort({ createdAt: 1 });
-    
-    res.status(200).json({ success: true, data: history });
+
+    if (!userId) {
+      return res.status(401).json({ success: false, message: 'Không xác định được người dùng.' });
+    }
+
+    if (!mongoose.isValidObjectId(document_id)) {
+      return res.status(400).json({ success: false, message: 'document_id không hợp lệ.' });
+    }
+
+    const document = await Document.findOne({
+      _id: document_id,
+      owner_id: userId
+    });
+
+    if (!document) {
+      return res.status(404).json({ success: false, message: 'Không tìm thấy tài liệu.' });
+    }
+
+    const history = await Message.find({
+      user_id: userId,
+      document_id
+    }).sort({ createdAt: 1 });
+
+    return res.status(200).json({ success: true, data: history });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Lỗi lấy lịch sử: ' + error.message });
+    return res.status(500).json({ success: false, message: 'Lỗi lấy lịch sử chat.' });
   }
 };
