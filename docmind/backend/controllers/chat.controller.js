@@ -1,16 +1,87 @@
 import mongoose from 'mongoose';
+import Chunk from '../models/chunk.model.js';
 import Document from '../models/document.model.js';
 import Message from '../models/message.model.js';
 import { generateAnswer } from '../services/ai.service.js';
 import { retrieveRelevantChunks } from '../services/retrieval.service.js';
 
-const NOT_FOUND_ANSWER = 'Tôi không tìm thấy thông tin này trong các tài liệu đã chọn.';
+const NOT_FOUND_ANSWER = 'Toi khong tim thay thong tin nay trong cac tai lieu da chon.';
 
 const getCurrentUserId = (req) => req.user?.userId;
 
-const buildContext = (chunks) => chunks
-  .map((chunk) => `[Trang ${chunk.page_number}]\n${chunk.text_content}`)
-  .join('\n\n');
+const normalizeText = (text) => text
+  .normalize('NFD')
+  .replace(/[\u0300-\u036f]/g, '')
+  .toLowerCase();
+
+const isPageCountQuestion = (question) => {
+  const normalizedQuestion = normalizeText(question);
+
+  return normalizedQuestion.includes('bao nhieu trang')
+    || normalizedQuestion.includes('tong so trang')
+    || normalizedQuestion.includes('tong bao nhieu trang')
+    || normalizedQuestion.includes('co may trang');
+};
+
+const isSummaryQuestion = (question) => {
+  const normalizedQuestion = normalizeText(question);
+
+  return normalizedQuestion.includes('tom tat')
+    || normalizedQuestion.includes('noi dung chinh')
+    || normalizedQuestion.includes('file nay noi ve gi')
+    || normalizedQuestion.includes('tai lieu nay noi ve gi')
+    || normalizedQuestion.includes('phan tich tai lieu')
+    || normalizedQuestion.includes('tong hop noi dung');
+};
+
+const buildDocumentMetadataContext = (document) => [
+  '[Thong tin tai lieu]',
+  `Ten tai lieu: ${document.display_name || document.original_name}`,
+  `Tong so trang: ${document.total_pages || 0}`
+].join('\n');
+
+const buildContext = (chunks, document) => {
+  const chunkContext = chunks
+    .map((chunk) => `[Trang ${chunk.page_number}]\n${chunk.text_content}`)
+    .join('\n\n');
+
+  return [buildDocumentMetadataContext(document), chunkContext].filter(Boolean).join('\n\n');
+};
+
+const pickRepresentativeChunks = (chunks, maxChunks) => {
+  if (chunks.length <= maxChunks) return chunks;
+
+  const pickedIndexes = new Set();
+  const segments = Math.min(3, maxChunks);
+  const perSegment = Math.floor(maxChunks / segments);
+  const remainder = maxChunks % segments;
+  const segmentSize = Math.ceil(chunks.length / segments);
+
+  for (let segment = 0; segment < segments; segment += 1) {
+    const start = segment * segmentSize;
+    const end = Math.min(start + segmentSize, chunks.length);
+    const take = perSegment + (segment < remainder ? 1 : 0);
+
+    for (let offset = 0; offset < take && start + offset < end; offset += 1) {
+      pickedIndexes.add(start + offset);
+    }
+  }
+
+  return Array.from(pickedIndexes)
+    .sort((a, b) => a - b)
+    .map((index) => chunks[index]);
+};
+
+const retrieveSummaryChunks = async (documentId) => {
+  const totalChunks = await Chunk.countDocuments({ document_id: documentId });
+  const limit = totalChunks > 24 ? 18 : 12;
+  const chunks = await Chunk.find({ document_id: documentId })
+    .sort({ chunk_index: 1 })
+    .select('document_id text_content chunk_index page_number')
+    .lean();
+
+  return pickRepresentativeChunks(chunks, limit);
+};
 
 const buildCitations = (chunks, document) => {
   const seen = new Set();
@@ -56,15 +127,15 @@ export const askQuestion = async (req, res) => {
     const { document_id, question } = req.body;
 
     if (!userId) {
-      return res.status(401).json({ success: false, message: 'Không xác định được người dùng.' });
+      return res.status(401).json({ success: false, message: 'Khong xac dinh duoc nguoi dung.' });
     }
 
     if (!document_id || !question?.trim()) {
-      return res.status(400).json({ success: false, message: 'Thiếu document_id hoặc question.' });
+      return res.status(400).json({ success: false, message: 'Thieu document_id hoac question.' });
     }
 
     if (!mongoose.isValidObjectId(document_id)) {
-      return res.status(400).json({ success: false, message: 'document_id không hợp lệ.' });
+      return res.status(400).json({ success: false, message: 'document_id khong hop le.' });
     }
 
     const document = await Document.findOne({
@@ -73,25 +144,49 @@ export const askQuestion = async (req, res) => {
     });
 
     if (!document) {
-      return res.status(404).json({ success: false, message: 'Không tìm thấy tài liệu.' });
+      return res.status(404).json({ success: false, message: 'Khong tim thay tai lieu.' });
     }
 
     if (document.status !== 'READY') {
       return res.status(409).json({
         success: false,
-        message: 'Tài liệu chưa sẵn sàng để hỏi AI.'
+        message: 'Tai lieu chua san sang de hoi AI.'
       });
     }
 
-    const chunks = await retrieveRelevantChunks(document._id, question.trim(), 5);
+    const safeQuestion = question.trim();
+
+    if (isPageCountQuestion(safeQuestion)) {
+      const answer = `Tai lieu "${document.display_name || document.original_name}" co tong cong ${document.total_pages || 0} trang.`;
+      const citations = [];
+
+      await saveChatMessages({
+        userId,
+        documentId: document._id,
+        question: safeQuestion,
+        answer,
+        citations
+      });
+
+      return res.status(200).json({
+        success: true,
+        answer,
+        citations
+      });
+    }
+
+    const chunks = isSummaryQuestion(safeQuestion)
+      ? await retrieveSummaryChunks(document._id)
+      : await retrieveRelevantChunks(document._id, safeQuestion, 5);
+
     let answer = NOT_FOUND_ANSWER;
     let citations = [];
 
     if (chunks.length > 0) {
-      const context = buildContext(chunks);
-      answer = await generateAnswer(context, question.trim());
+      const context = buildContext(chunks, document);
+      answer = await generateAnswer(context, safeQuestion);
 
-      if (!answer.includes(NOT_FOUND_ANSWER) && !answer.toLowerCase().includes('không tìm thấy')) {
+      if (!normalizeText(answer).includes(normalizeText(NOT_FOUND_ANSWER)) && !normalizeText(answer).includes('khong tim thay')) {
         citations = buildCitations(chunks, document);
       }
     }
@@ -99,7 +194,7 @@ export const askQuestion = async (req, res) => {
     await saveChatMessages({
       userId,
       documentId: document._id,
-      question: question.trim(),
+      question: safeQuestion,
       answer,
       citations
     });
@@ -111,7 +206,7 @@ export const askQuestion = async (req, res) => {
     });
   } catch (error) {
     console.error('Loi Chat API:', error.message);
-    return res.status(500).json({ success: false, message: 'Không thể xử lý câu hỏi.' });
+    return res.status(500).json({ success: false, message: 'Khong the xu ly cau hoi.' });
   }
 };
 
@@ -121,11 +216,11 @@ export const getChatHistory = async (req, res) => {
     const { document_id } = req.params;
 
     if (!userId) {
-      return res.status(401).json({ success: false, message: 'Không xác định được người dùng.' });
+      return res.status(401).json({ success: false, message: 'Khong xac dinh duoc nguoi dung.' });
     }
 
     if (!mongoose.isValidObjectId(document_id)) {
-      return res.status(400).json({ success: false, message: 'document_id không hợp lệ.' });
+      return res.status(400).json({ success: false, message: 'document_id khong hop le.' });
     }
 
     const document = await Document.findOne({
@@ -134,7 +229,7 @@ export const getChatHistory = async (req, res) => {
     });
 
     if (!document) {
-      return res.status(404).json({ success: false, message: 'Không tìm thấy tài liệu.' });
+      return res.status(404).json({ success: false, message: 'Khong tim thay tai lieu.' });
     }
 
     const history = await Message.find({
@@ -144,6 +239,6 @@ export const getChatHistory = async (req, res) => {
 
     return res.status(200).json({ success: true, data: history });
   } catch (error) {
-    return res.status(500).json({ success: false, message: 'Lỗi lấy lịch sử chat.' });
+    return res.status(500).json({ success: false, message: 'Loi lay lich su chat.' });
   }
 };

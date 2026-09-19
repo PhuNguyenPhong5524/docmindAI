@@ -1,7 +1,7 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Table, Input, Button, Drawer, Modal, Progress, Tag, Upload, message, Empty
+  Table, Input, Button, Drawer, Modal, Progress, Tag, Upload, message, Empty, Alert
 } from 'antd';
 import {
   UploadOutlined, SearchOutlined, ControlOutlined, FilePdfOutlined,
@@ -42,6 +42,14 @@ const formatDate = (value?: string) => {
   }).format(new Date(value));
 };
 
+const formatElapsedTime = (seconds: number) => {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+
+  if (minutes === 0) return `${remainingSeconds}s`;
+  return `${minutes}m ${remainingSeconds.toString().padStart(2, '0')}s`;
+};
+
 const statusLabel: Record<DocumentStatus, string> = {
   PROCESSING: 'Đang xử lý',
   READY: 'Sẵn sàng',
@@ -60,8 +68,22 @@ export const UserDocumentPage: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState<FilterStatus>('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [uploadStartedAt, setUploadStartedAt] = useState<number | null>(null);
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const [currentUploadIndex, setCurrentUploadIndex] = useState(0);
+  const [currentUploadFileName, setCurrentUploadFileName] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(4);
+
+  useEffect(() => {
+    if (!uploadStartedAt) return undefined;
+
+    const timer = window.setInterval(() => {
+      setElapsedSeconds(Math.floor((Date.now() - uploadStartedAt) / 1000));
+    }, 1000);
+
+    return () => window.clearInterval(timer);
+  }, [uploadStartedAt]);
 
   const documents = useMemo<DocumentRow[]>(() => {
     return (data?.data || []).map((doc) => ({ ...doc, key: doc._id }));
@@ -105,14 +127,27 @@ export const UserDocumentPage: React.FC = () => {
     }
 
     try {
-      for (const file of selectedFiles) {
+      setUploadStartedAt(Date.now());
+      setElapsedSeconds(0);
+      setCurrentUploadIndex(0);
+
+      for (let index = 0; index < selectedFiles.length; index += 1) {
+        const file = selectedFiles[index];
+        setCurrentUploadIndex(index);
+        setCurrentUploadFileName(file.name);
         await uploadMutation.mutateAsync(file);
       }
 
       message.success(`Tải và xử lý ${selectedFiles.length} file PDF thành công.`);
       setSelectedFiles([]);
+      setUploadStartedAt(null);
+      setCurrentUploadIndex(0);
+      setCurrentUploadFileName('');
       setIsDrawerOpen(false);
     } catch {
+      setUploadStartedAt(null);
+      setCurrentUploadIndex(0);
+      setCurrentUploadFileName('');
       message.error('Không thể tải tài liệu PDF.');
     }
   };
@@ -448,6 +483,39 @@ export const UserDocumentPage: React.FC = () => {
               Hỗ trợ tối đa <strong>{MAX_UPLOAD_FILES} file PDF/lần</strong>, mỗi file không quá <strong>20MB</strong>.
             </p>
           </Dragger>
+
+          {uploadMutation.isPending && (
+            <Alert
+              type="info"
+              showIcon
+              message="Đang xử lý tài liệu"
+              description={
+                <div className="space-y-3">
+                  <div className="text-sm text-gray-600">
+                    Hệ thống đang đọc PDF, chia chunk, tạo embedding và lưu dữ liệu. Thời gian bên dưới là thời gian xử lý thực tế.
+                  </div>
+                  <div className="grid grid-cols-2 gap-3 text-xs">
+                    <div className="rounded-lg bg-white px-3 py-2 border border-blue-100">
+                      <div className="text-gray-400 uppercase font-semibold">Thời gian</div>
+                      <div className="font-mono text-gray-900 font-bold">{formatElapsedTime(elapsedSeconds)}</div>
+                    </div>
+                    <div className="rounded-lg bg-white px-3 py-2 border border-blue-100">
+                      <div className="text-gray-400 uppercase font-semibold">Tiến độ file</div>
+                      <div className="font-mono text-gray-900 font-bold">{Math.min(currentUploadIndex + 1, selectedFiles.length)} / {selectedFiles.length}</div>
+                    </div>
+                  </div>
+                  <div className="text-xs text-gray-500 truncate">
+                    Đang xử lý: <span className="font-semibold text-gray-700">{currentUploadFileName || selectedFiles[0]?.name}</span>
+                  </div>
+                  <Progress
+                    percent={selectedFiles.length ? Math.round((currentUploadIndex / selectedFiles.length) * 100) : 0}
+                    status="active"
+                    showInfo={false}
+                  />
+                </div>
+              }
+            />
+          )}
         </div>
       </Drawer>
 
