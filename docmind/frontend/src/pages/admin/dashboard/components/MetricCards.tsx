@@ -1,96 +1,41 @@
-import React from 'react';
-import {
-  UsergroupAddOutlined,
-  FileTextOutlined,
-  MessageOutlined,
-  ThunderboltOutlined,
-  ArrowUpOutlined,
-  CheckCircleOutlined,
-  ThunderboltFilled,
-  SafetyCertificateOutlined,
-} from '@ant-design/icons';
+import React, { useState, useEffect } from 'react';
 
-interface MetricItem {
-  title: string;
-  value: string;
-  icon: React.ReactNode;
-  iconBg: string;
-  badgeText: string;
-  badgeIcon: React.ReactNode;
-  badgeColor: string;
-  subText: string;
-}
+const MetricCards: React.FC = () => {
+  const [totalUsers, setTotalUsers] = useState(0);
+  const [totalDocs, setTotalDocs] = useState(0);
 
-const metrics: MetricItem[] = [
-  {
-    title: 'Tổng người dùng',
-    value: '126',
-    icon: <UsergroupAddOutlined className="text-xl text-indigo-600" />,
-    iconBg: 'bg-indigo-50',
-    badgeText: '+12',
-    badgeIcon: <ArrowUpOutlined />,
-    badgeColor: 'text-emerald-600',
-    subText: 'Gia nhập trong tháng',
-  },
-  {
-    title: 'Tổng tài liệu',
-    value: '342',
-    icon: <FileTextOutlined className="text-xl text-blue-600" />,
-    iconBg: 'bg-blue-50',
-    badgeText: '100%',
-    badgeIcon: <CheckCircleOutlined />,
-    badgeColor: 'text-indigo-600',
-    subText: 'Đã vector hóa toàn diện',
-  },
-  {
-    title: 'Cuộc trò chuyện',
-    value: '481',
-    icon: <MessageOutlined className="text-xl text-purple-600" />,
-    iconBg: 'bg-purple-50',
-    badgeText: 'RAG Live',
-    badgeIcon: <ThunderboltFilled className="text-amber-500" />,
-    badgeColor: 'text-indigo-700 font-bold',
-    subText: 'Phiên hỏi đáp đa ngữ',
-  },
-  {
-    title: 'Câu hỏi AI',
-    value: '1,248',
-    icon: <ThunderboltOutlined className="text-xl text-indigo-600" />,
-    iconBg: 'bg-indigo-50',
-    badgeText: '99.2%',
-    badgeIcon: <SafetyCertificateOutlined />,
-    badgeColor: 'text-emerald-600',
-    subText: 'Trích dẫn chính xác',
-  },
-];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem("token") || localStorage.getItem("accessToken") || "";
+        const headers = { "Authorization": `Bearer ${token}` };
 
-export const MetricCards: React.FC = () => {
+        // Gọi API đếm tổng User
+        const userRes = await fetch("http://localhost:8080/api/admin/users", { headers });
+        const userData = await userRes.json();
+        if (Array.isArray(userData)) setTotalUsers(userData.length);
+
+        // Gọi API đếm tổng Tài liệu
+        const docRes = await fetch("http://localhost:8080/api/documents", { headers });
+        const docData = await docRes.json();
+        if (docData.success && Array.isArray(docData.data)) setTotalDocs(docData.data.length);
+      } catch (error) {
+        console.error("Lỗi lấy dữ liệu Dashboard:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      {metrics.map((item, idx) => (
-        <div
-          key={idx}
-          className="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between overflow-hidden"
-        >
-          <div className="p-5 flex items-start justify-between">
-            <div>
-              <span className="text-xs font-semibold text-slate-500">{item.title}</span>
-              <div className="mt-1">
-                <span className="text-3xl font-extrabold text-slate-900 tracking-tight">{item.value}</span>
-              </div>
-            </div>
-            <div className={`w-11 h-11 rounded-xl ${item.iconBg} flex items-center justify-center shrink-0`}>
-              {item.icon}
-            </div>
-          </div>
-          <div className="bg-slate-50/80 px-5 py-3 border-t border-slate-100 flex items-center justify-between text-xs">
-            <span className={`inline-flex items-center gap-1 font-semibold ${item.badgeColor}`}>
-              {item.badgeIcon} {item.badgeText}
-            </span>
-            <span className="text-slate-400 font-medium">{item.subText}</span>
-          </div>
-        </div>
-      ))}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-center">
+        <span className="text-sm font-medium text-slate-500 mb-1">Tổng người dùng</span>
+        <span className="text-3xl font-bold text-slate-900">{totalUsers}</span>
+      </div>
+      <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-center">
+        <span className="text-sm font-medium text-slate-500 mb-1">Tổng tài liệu</span>
+        <span className="text-3xl font-bold text-slate-900">{totalDocs}</span>
+      </div>
     </div>
   );
 };

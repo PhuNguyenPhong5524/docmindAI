@@ -1,14 +1,7 @@
-import React from "react";
-import { Drawer, Button, Tag, Progress } from "antd";
-import { 
-  LockOutlined, 
-  SafetyCertificateOutlined, 
-  FolderOpenOutlined, 
-  ThunderboltOutlined,
-  CheckCircleOutlined,
-  CloseCircleOutlined
-} from "@ant-design/icons";
-import type { User } from "../../../../types/adminUser";
+import React from 'react';
+import { Drawer, Button } from 'antd';
+import { SafetyCertificateOutlined, LockOutlined, UnlockOutlined } from '@ant-design/icons';
+import type { User } from '../../../../types/adminUser';
 
 interface UserDetailDrawerProps {
   open: boolean;
@@ -17,129 +10,127 @@ interface UserDetailDrawerProps {
   onOpenBlockModal: (user: User) => void;
 }
 
-export const UserDetailDrawer: React.FC<UserDetailDrawerProps> = ({ open, user, onClose, onOpenBlockModal }) => {
+export const UserDetailDrawer: React.FC<UserDetailDrawerProps> = ({
+  open,
+  user,
+  onClose,
+  onOpenBlockModal,
+}) => {
   if (!user) return null;
+
+  // Lấy joinDate từ backend gửi lên, nếu không có thì tự format
+  const joinDate = user.joinDate || (user.created_at 
+    ? new Date(user.created_at).toLocaleDateString('vi-VN') 
+    : 'Mới tham gia');
+
+  // Lấy dữ liệu THẬT 100% từ Database do Backend gửi sang
+  const docsCount = user.docsCount || 0;
+  const storageUsed = user.totalStorage || "0.00"; 
+  const chatsCount = user.chatsCount || 0;
+
+  const isAdmin = user.role === 'ADMIN';
+  const isActive = user.status === 'ACTIVE';
 
   return (
     <Drawer
-      title={
-        <div className="flex items-center gap-2">
-          <span className="font-bold text-base">Thông tin người dùng</span>
-          <span className="font-mono text-xs px-2 py-0.5 rounded bg-surface-container-highest text-primary font-bold">
-            {user.id}
-          </span>
-        </div>
-      }
+      title={<span className="text-slate-800 font-bold">Chi tiết người dùng</span>}
       placement="right"
       onClose={onClose}
       open={open}
-      width={420}
+      width={450}
       footer={
-        <div className="flex items-center justify-between">
-          <Button onClick={onClose}>Đóng</Button>
-          {!user.isSystem && user.status === "ACTIVE" && (
-            <Button
-              danger
-              type="primary"
-              icon={<LockOutlined />}
-              onClick={() => {
-                onClose();
-                onOpenBlockModal(user);
-              }}
-            >
-              Khóa tài khoản
-            </Button>
-          )}
+        <div className="flex justify-between items-center py-2">
+          <Button onClick={onClose} className="border-slate-300 text-slate-600 font-medium rounded-lg">
+            Đóng
+          </Button>
+          <Button 
+            onClick={() => onOpenBlockModal(user)} 
+            danger={isActive}
+            className={`font-medium rounded-lg border-none text-white ${isActive ? 'bg-red-500 hover:bg-red-600' : 'bg-emerald-500 hover:bg-emerald-600'}`}
+            icon={isActive ? <LockOutlined /> : <UnlockOutlined />}
+          >
+            {isActive ? 'Khóa tài khoản' : 'Mở khóa tài khoản'}
+          </Button>
         </div>
       }
     >
-      <div className="flex flex-col gap-5 text-sm">
-        {/* User Hero Card */}
-        <div className="p-4 rounded-xl bg-surface-container-low flex flex-col items-center text-center gap-2">
-          <div className={`w-20 h-20 rounded-full text-2xl font-bold flex items-center justify-center shadow-sm ${user.avatarBg}`}>
-            {user.initials}
-          </div>
-          <div className="flex flex-col">
-            <h2 className="font-bold text-base text-on-surface">{user.name}</h2>
-            <span className="font-mono text-xs text-on-surface-variant">{user.email}</span>
-          </div>
-          <div className="flex items-center gap-2 mt-1">
-            <Tag color="purple">{user.role}</Tag>
-            {user.status === "ACTIVE" ? (
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#ecfdf5] text-[#047857]">
-                ● Hoạt động
-              </span>
-            ) : (
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-error-container text-on-error-container">
-                ● Đã khóa
-              </span>
-            )}
-          </div>
+      <div className="flex flex-col items-center mb-6 mt-2">
+        <div className="w-24 h-24 rounded-full bg-indigo-600 text-white flex items-center justify-center text-3xl font-bold shadow-md mb-4">
+          {user.name ? user.name.substring(0, 2).toUpperCase() : 'U'}
         </div>
-
-        {/* Security Notice */}
-        <div className="p-2.5 rounded-lg bg-surface-container-high/60 flex items-center gap-2 text-xs text-on-surface-variant">
-          <SafetyCertificateOutlined className="text-tertiary text-base" />
-          <span>Dữ liệu nhạy cảm (mật khẩu băm, JWT token, khóa bí mật) được bảo vệ và ẩn hoàn toàn khỏi console.</span>
-        </div>
-
-        {/* System Activity Section */}
-        <div className="flex flex-col gap-2">
-          <span className="text-xs uppercase tracking-wider text-on-surface-variant font-bold">
-            THÔNG TIN HOẠT ĐỘNG HỆ THỐNG
+        <h2 className="text-xl font-bold text-slate-900">{user.name || user.full_name || 'Người dùng'}</h2>
+        <p className="text-sm text-slate-500 mb-3">{user.email}</p>
+        <div className="flex items-center gap-2">
+          <span className="px-2.5 py-1 text-xs font-bold text-indigo-700 bg-indigo-50 rounded-md border border-indigo-100">
+            {user.role || 'USER'}
           </span>
-          <div className="grid grid-cols-2 gap-2">
-            <div className="p-3 rounded-xl bg-surface-container-low flex flex-col">
-              <span className="text-xs text-on-surface-variant">Ngày tham gia</span>
-              <span className="font-mono font-bold text-on-surface mt-1">{user.joinedAt}</span>
-            </div>
-            <div className="p-3 rounded-xl bg-surface-container-low flex flex-col">
-              <span className="text-xs text-on-surface-variant">Lần đăng nhập cuối</span>
-              <span className="font-mono font-bold text-[#10b981] mt-1">{user.lastLogin ?? "28 phút trước"}</span>
-              <span className="font-mono text-[10px] text-on-surface-variant">IP: {user.ip ?? "118.70.182.14"}</span>
-            </div>
-          </div>
+          <span className={`flex items-center gap-1.5 px-2.5 py-1 text-xs font-bold rounded-md border ${
+            isActive ? 'text-emerald-700 bg-emerald-50 border-emerald-200' : 'text-red-700 bg-red-50 border-red-200'
+          }`}>
+            <span className={`w-1.5 h-1.5 rounded-full ${isActive ? 'bg-emerald-500' : 'bg-red-500'}`}></span>
+            {isActive ? 'Hoạt động' : 'Đã khóa'}
+          </span>
+        </div>
+      </div>
 
-          <div className="p-3 rounded-xl bg-surface-container-low flex flex-col gap-2">
-            <span className="text-xs text-on-surface-variant font-medium">Khối lượng sử dụng tài nguyên AI</span>
-            <div className="flex items-center justify-between text-xs">
-              <span className="flex items-center gap-1.5 text-on-surface">
-                <FolderOpenOutlined className="text-tertiary" /> Tài liệu đã tải lên
-              </span>
-              <span className="font-mono font-bold">{user.docsCount ?? 12} tài liệu ({user.storageUsed ?? "68.4 MB"})</span>
-            </div>
-            <Progress percent={34} showInfo={false} strokeColor="#006693" size="small" />
-            <div className="flex items-center justify-between text-xs pt-1 border-t border-surface-container-low">
-              <span className="flex items-center gap-1.5 text-on-surface">
-                <ThunderboltOutlined className="text-primary" /> Câu hỏi RAG Embeddings
-              </span>
-              <span className="font-mono font-bold text-primary">{user.queriesCount ?? 45} truy vấn</span>
-            </div>
+      <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 mb-6 flex items-start gap-3">
+        <SafetyCertificateOutlined className="text-slate-400 text-lg mt-0.5" />
+        <p className="text-xs text-slate-500 leading-relaxed">
+          Dữ liệu nhạy cảm (mật khẩu băm, JWT token, khóa bí mật) được bảo vệ và ẩn hoàn toàn khỏi console.
+        </p>
+      </div>
+
+      <div className="mb-6">
+        <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Thông tin hoạt động hệ thống</h3>
+        <div className="grid grid-cols-2 gap-3 mb-3">
+          <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
+            <p className="text-xs text-slate-500 mb-1">Ngày tham gia</p>
+            <p className="text-sm font-semibold text-slate-800">{joinDate}</p>
+          </div>
+          <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
+            <p className="text-xs text-slate-500 mb-1">Trạng thái mạng</p>
+            <p className={`text-sm font-semibold ${user.isOnline ? 'text-emerald-600' : 'text-slate-400'}`}>
+              {user.isOnline ? 'Trực tuyến' : 'Ngoại tuyến'}
+            </p>
+            <p className="text-[10px] text-slate-400 mt-1">
+              IP: {user.isOnline ? 'Đang kết nối' : 'Chưa ghi nhận'}
+            </p>
           </div>
         </div>
 
-        {/* Permissions Overview */}
-        <div className="flex flex-col gap-2">
-          <span className="text-xs uppercase tracking-wider text-on-surface-variant font-bold">
-            PHÂN QUYỀN CHI TIẾT
-          </span>
-          <div className="flex flex-col gap-1.5 text-xs">
-            <div className="flex items-center justify-between p-2 rounded-lg bg-surface-container-low">
-              <span>Truy cập API Vector Ingestion</span>
-              <CheckCircleOutlined className="text-[#10b981]" />
-            </div>
-            <div className="flex items-center justify-between p-2 rounded-lg bg-surface-container-low">
-              <span>Chia sẻ tài liệu công khai</span>
-              <CheckCircleOutlined className="text-[#10b981]" />
-            </div>
-            <div className="flex items-center justify-between p-2 rounded-lg bg-surface-container-low">
-              <span>Quyền quản trị viên Tenant</span>
-              {user.role === "ADMIN" ? (
-                <CheckCircleOutlined className="text-[#10b981]" />
-              ) : (
-                <CloseCircleOutlined className="text-error" />
-              )}
-            </div>
+        <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 space-y-3">
+          <p className="text-xs font-bold text-slate-500 uppercase">Khối lượng sử dụng tài nguyên AI</p>
+          <div className="flex justify-between items-center pb-2 border-b border-slate-200/60">
+            <span className="text-sm text-slate-600 flex items-center gap-2">
+              <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+              Tài liệu đã tải lên
+            </span>
+            <span className="text-sm font-semibold text-slate-800">{docsCount} tài liệu <span className="text-xs text-slate-400 font-normal">({storageUsed} MB)</span></span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-slate-600 flex items-center gap-2">
+              <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+              Câu hỏi RAG Embeddings
+            </span>
+            <span className="text-sm font-semibold text-indigo-600">{chatsCount} truy vấn</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Phân quyền chi tiết</h3>
+        <div className="bg-white border border-slate-200 rounded-xl divide-y divide-slate-100">
+          <div className="flex justify-between items-center p-3 hover:bg-slate-50 transition-colors">
+            <span className="text-sm text-slate-700">Truy cập API Vector Ingestion</span>
+            <div className={`w-4 h-4 rounded-full border-[4px] ${docsCount > 0 || isAdmin ? 'border-indigo-500' : 'border-slate-300'}`}></div>
+          </div>
+          <div className="flex justify-between items-center p-3 hover:bg-slate-50 transition-colors">
+            <span className="text-sm text-slate-700">Chia sẻ tài liệu công khai</span>
+            <div className={`w-4 h-4 rounded-full border-[4px] ${isActive ? 'border-indigo-500' : 'border-slate-300'}`}></div>
+          </div>
+          <div className="flex justify-between items-center p-3 hover:bg-slate-50 transition-colors">
+            <span className="text-sm text-slate-700">Quyền quản trị viên Tenant</span>
+            <div className={`w-4 h-4 rounded-full border-[4px] ${isAdmin ? 'border-indigo-500' : 'border-slate-300'}`}></div>
           </div>
         </div>
       </div>

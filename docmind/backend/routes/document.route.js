@@ -1,15 +1,14 @@
 import express from 'express';
 import multer from 'multer';
-import { 
-  uploadDocument, 
-  uploadConfig, 
-  getAllDocuments, 
-  deleteDocument, 
-  summarizeDocument, 
-  compareDocuments 
+import {
+  uploadDocument,
+  uploadConfig,
+  getAllDocuments,
+  deleteDocument,
+  summarizeDocument,
+  compareDocuments
 } from '../controllers/document.controller.js';
 import authMiddleware from '../middleware/auth.middleware.js';
-import authorizeRole from '../middleware/authorizeRole.middleware.js';
 
 const router = express.Router();
 
@@ -29,20 +28,15 @@ const handleUploadErrors = (err, req, res, next) => {
   });
 };
 
-// Route 1: Upload file PDF
-// Field upload thong nhat trong Postman/Frontend: pdf_file
-router.post('/upload', authMiddleware, authorizeRole("USER"), uploadConfig.single('pdf_file'), handleUploadErrors, uploadDocument);
+// Đã gỡ bỏ authorizeRole, chỉ giữ lại authMiddleware để xác thực người dùng đã đăng nhập
+router.post('/upload', authMiddleware, uploadConfig.single('pdf_file'), handleUploadErrors, uploadDocument);
 
-// Route 2: Lấy danh sách file
 router.get('/', getAllDocuments);
 
-// Route 3: Xóa file theo ID
 router.delete('/:id', deleteDocument);
 
-// Route 4: Tóm tắt tài liệu
 router.post('/:id/summary', summarizeDocument);
 
-// Route 5: So sánh 2 tài liệu
 router.post('/compare', compareDocuments);
 
 export default router;

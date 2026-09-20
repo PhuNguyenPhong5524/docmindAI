@@ -1,15 +1,16 @@
 import express from 'express';
-import { getDashboardStats, getAllUsers, toggleUserLock } from '../controllers/admin.controller.js';
+import { getAllUsers, toggleUserLock, createUser } from '../controllers/admin.controller.js';
+import authMiddleware from '../middleware/auth.middleware.js';
 
 const router = express.Router();
 
-// Route 1: Xem Dashboard
-router.get('/dashboard', getDashboardStats);
+// Lấy danh sách users
+router.get('/users', authMiddleware, getAllUsers);
 
-// Route 2: Quản lý danh sách User
-router.get('/users', getAllUsers);
+// Khóa/Mở khóa user
+router.patch('/users/:id/toggle-lock', authMiddleware, toggleUserLock);
 
-// Route 3: Khóa/Mở khóa tài khoản
-router.patch('/users/:id/toggle-lock', toggleUserLock);
+// Thêm người dùng mới (Đường dẫn API mà lúc nãy Frontend gọi bị thiếu)
+router.post('/users', authMiddleware, createUser);
 
 export default router;

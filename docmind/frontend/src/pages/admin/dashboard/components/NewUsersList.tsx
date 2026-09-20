@@ -1,113 +1,61 @@
-import React from 'react';
-import { UserAddOutlined, ArrowRightOutlined } from '@ant-design/icons';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
-interface UserItem {
-  id: string;
-  name: string;
-  email: string;
-  avatarBg: string;
-  avatarColor: string;
-  initials: string;
-  status: 'active' | 'blocked';
-  statusText: string;
-  time: string;
-}
+const NewUsersList: React.FC = () => {
+  const [users, setUsers] = useState<any[]>([]);
 
-const users: UserItem[] = [
-  {
-    id: '1',
-    name: 'Trần Bảo Ngọc',
-    email: 'ngoc.tran@uit.edu.vn',
-    avatarBg: 'bg-indigo-100',
-    avatarColor: 'text-indigo-700',
-    initials: 'TB',
-    status: 'active',
-    statusText: 'Hoạt động',
-    time: '15 phút trước',
-  },
-  {
-    id: '2',
-    name: 'Lê Hoàng Nam',
-    email: 'nam.le@fpt.com',
-    avatarBg: 'bg-blue-100',
-    avatarColor: 'text-blue-700',
-    initials: 'LH',
-    status: 'active',
-    statusText: 'Hoạt động',
-    time: '2 giờ trước',
-  },
-  {
-    id: '3',
-    name: 'Vũ Minh Quân',
-    email: 'quan.vu@vnu.edu.vn',
-    avatarBg: 'bg-rose-100',
-    avatarColor: 'text-rose-700',
-    initials: 'VM',
-    status: 'blocked',
-    statusText: 'Đã khóa',
-    time: 'Hôm qua',
-  },
-  {
-    id: '4',
-    name: 'Đỗ Thanh Thảo',
-    email: 'thao.do@techcorp.vn',
-    avatarBg: 'bg-purple-100',
-    avatarColor: 'text-purple-700',
-    initials: 'ĐT',
-    status: 'active',
-    statusText: 'Hoạt động',
-    time: '2 ngày trước',
-  },
-];
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const token = localStorage.getItem("token") || localStorage.getItem("accessToken") || "";
+        const res = await fetch("http://localhost:8080/api/admin/users", {
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          setUsers(data.slice(0, 5)); // Chỉ lấy 5 người mới nhất
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchUsers();
+  }, []);
 
-export const NewUsersList: React.FC = () => {
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-slate-100 flex flex-col h-full overflow-hidden">
-      <div className="px-5 py-4 flex items-center justify-between border-b border-slate-100 bg-slate-50/50">
-        <div className="flex items-center gap-2">
-          <UserAddOutlined className="text-indigo-600 text-base" />
-          <h3 className="text-base font-bold text-slate-800">Người dùng mới</h3>
-        </div>
-        <button className="inline-flex items-center gap-1 text-xs text-indigo-600 hover:text-indigo-800 font-semibold cursor-pointer">
-          <span>Xem tất cả</span>
-          <ArrowRightOutlined className="text-[10px]" />
-        </button>
+    <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 flex flex-col h-full">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+          <span className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          </span>
+          Người dùng mới
+        </h2>
+        <Link to="/admin/users" className="text-xs font-semibold text-indigo-600 hover:text-indigo-700 cursor-pointer">
+          Xem tất cả →
+        </Link>
       </div>
-
-      <div className="p-3 divide-y divide-slate-100 flex-1">
-        {users.map((user) => (
-          <div
-            key={user.id}
-            className="flex items-center justify-between p-2.5 hover:bg-slate-50/80 rounded-xl transition-colors gap-3"
-          >
-            <div className="flex items-center gap-3 min-w-0">
-              <div
-                className={`w-9 h-9 rounded-full ${user.avatarBg} ${user.avatarColor} flex items-center justify-center font-bold text-xs shrink-0`}
-              >
-                {user.initials}
+      <div className="flex-1 overflow-auto">
+        <div className="space-y-4">
+          {users.map((u, i) => (
+            <div key={i} className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold">
+                  {u.name ? u.name.substring(0, 2).toUpperCase() : 'U'}
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-slate-900">{u.name || 'Người dùng'}</p>
+                  <p className="text-xs text-slate-500">{u.email}</p>
+                </div>
               </div>
-              <div className="flex flex-col min-w-0">
-                <span className="text-xs font-semibold text-slate-800 truncate">{user.name}</span>
-                <span className="text-[11px] text-slate-400 truncate">{user.email}</span>
-              </div>
-            </div>
-            <div className="flex flex-col items-end gap-1 shrink-0">
-              <span
-                className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold ${
-                  user.status === 'active'
-                    ? 'bg-emerald-50 text-emerald-700 border border-emerald-100'
-                    : 'bg-rose-50 text-rose-700 border border-rose-100'
-                }`}
-              >
-                {user.statusText}
+              <span className="text-[11px] font-medium text-slate-400 bg-slate-50 px-2 py-1 rounded-md">
+                {u.status === 'ACTIVE' ? 'Hoạt động' : 'Đã khóa'}
               </span>
-              <span className="text-[11px] text-slate-400">{user.time}</span>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
 };
-
 export default NewUsersList;
