@@ -1,7 +1,6 @@
-// Bảng hiển thị danh sách phiên hỏi đáp
-import React from 'react';
-import { Table, Tag, Button, Popconfirm, Tooltip } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
+import React from "react";
+import { Button, Popconfirm, Table, Tag, Tooltip } from "antd";
+import type { ColumnsType } from "antd/es/table";
 
 export interface SessionItem {
   id: string;
@@ -19,22 +18,26 @@ interface HistoryTableProps {
   dataSource: SessionItem[];
   onDeleteSession: (id: string) => void;
   onOpenChat: (id: string) => void;
+  onExportCSV: () => void;
+  loading?: boolean;
 }
 
 export const HistoryTable: React.FC<HistoryTableProps> = ({
   dataSource,
   onDeleteSession,
   onOpenChat,
+  onExportCSV,
+  loading = false,
 }) => {
   const columns: ColumnsType<SessionItem> = [
     {
-      title: 'Cuộc trò chuyện',
-      dataIndex: 'title',
-      key: 'title',
+      title: "Cuộc trò chuyện",
+      dataIndex: "title",
+      key: "title",
       render: (text: string, record: SessionItem) => (
         <div className="flex items-center gap-3 group">
           <div className="w-9 h-9 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600 shrink-0 group-hover:scale-105 transition-transform">
-            <span className="material-symbols-outlined text-[20px]">{record.icon || 'forum'}</span>
+            <span className="material-symbols-outlined text-[20px]">{record.icon || "forum"}</span>
           </div>
           <div className="flex flex-col min-w-0">
             <span
@@ -49,9 +52,9 @@ export const HistoryTable: React.FC<HistoryTableProps> = ({
       ),
     },
     {
-      title: 'Tài liệu tham chiếu',
-      dataIndex: 'document',
-      key: 'document',
+      title: "Tài liệu tham chiếu",
+      dataIndex: "document",
+      key: "document",
       width: 240,
       render: (docName: string) => (
         <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-100 text-slate-700 font-mono text-xs max-w-full">
@@ -63,21 +66,21 @@ export const HistoryTable: React.FC<HistoryTableProps> = ({
       ),
     },
     {
-      title: 'Số tin',
-      dataIndex: 'messageCount',
-      key: 'messageCount',
-      align: 'center',
+      title: "Số tin",
+      dataIndex: "messageCount",
+      key: "messageCount",
+      align: "center",
       width: 100,
       render: (count: number) => (
         <Tag color="purple" className="rounded-full px-2.5 py-0.5 border-none font-semibold text-xs">
-          💬 {count}
+          {count}
         </Tag>
       ),
     },
     {
-      title: 'Lần hỏi cuối',
-      dataIndex: 'lastActive',
-      key: 'lastActive',
+      title: "Lần hỏi cuối",
+      dataIndex: "lastActive",
+      key: "lastActive",
       width: 160,
       render: (_, record: SessionItem) => (
         <div className="flex flex-col">
@@ -87,9 +90,9 @@ export const HistoryTable: React.FC<HistoryTableProps> = ({
       ),
     },
     {
-      title: 'Thao tác',
-      key: 'actions',
-      align: 'right',
+      title: "Thao tác",
+      key: "actions",
+      align: "right",
       width: 180,
       render: (_, record: SessionItem) => (
         <div className="flex items-center justify-end gap-2">
@@ -105,7 +108,7 @@ export const HistoryTable: React.FC<HistoryTableProps> = ({
 
           <Popconfirm
             title="Xóa phiên hội thoại"
-            description="Bạn có chắc chắn muốn xóa phiên hội thoại này?"
+            description="Bạn có chắc chắn muốn xóa lịch sử hội thoại này?"
             onConfirm={() => onDeleteSession(record.id)}
             okText="Xóa"
             cancelText="Hủy"
@@ -134,17 +137,16 @@ export const HistoryTable: React.FC<HistoryTableProps> = ({
             {dataSource.length} phiên hiển thị
           </span>
         </div>
-        <div className="flex items-center gap-3 text-xs text-slate-500">
-          <button type="button" className="hover:text-indigo-600 flex items-center gap-1 transition-colors">
-            <span className="material-symbols-outlined text-[16px]">file_download</span> Xuất CSV
-          </button>
-        </div>
+        <button type="button" onClick={onExportCSV} className="hover:text-indigo-600 flex items-center gap-1 transition-colors text-xs text-slate-500">
+          <span className="material-symbols-outlined text-[16px]">file_download</span> Xuất CSV
+        </button>
       </div>
 
       <Table<SessionItem>
         dataSource={dataSource}
         columns={columns}
         rowKey="id"
+        loading={loading}
         pagination={{
           pageSize: 5,
           showSizeChanger: false,

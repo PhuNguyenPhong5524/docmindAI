@@ -15,6 +15,7 @@ import chatRoutes from './routes/chat.route.js';
 import adminRoutes from './routes/admin.route.js';
 import notificationRoutes from './routes/notification.route.js';
 import userDashboardRoutes from './routes/userDashboard.route.js';
+import historyRoutes from './routes/history.route.js';
 dotenv.config();
 
 const app = express();
@@ -77,6 +78,7 @@ app.use('/api/documents', documentRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/user', userDashboardRoutes);
+app.use('/api/history', historyRoutes);
 app.use('/api/admin', adminRoutes);
 // Kết nối MongoDB
 mongoose.connect(process.env.MONGODB_URI)
