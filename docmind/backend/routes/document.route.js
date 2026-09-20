@@ -31,12 +31,12 @@ const handleUploadErrors = (err, req, res, next) => {
 // Đã gỡ bỏ authorizeRole, chỉ giữ lại authMiddleware để xác thực người dùng đã đăng nhập
 router.post('/upload', authMiddleware, uploadConfig.single('pdf_file'), handleUploadErrors, uploadDocument);
 
-router.get('/', getAllDocuments);
+router.get('/', authMiddleware, getAllDocuments);
 
-router.delete('/:id', deleteDocument);
+router.delete('/:id', authMiddleware, deleteDocument);
 
-router.post('/:id/summary', summarizeDocument);
+router.post('/:id/summary', authMiddleware, summarizeDocument);
 
-router.post('/compare', compareDocuments);
+router.post('/compare', authMiddleware, compareDocuments);
 
 export default router;

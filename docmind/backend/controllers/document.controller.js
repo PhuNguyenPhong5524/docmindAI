@@ -159,7 +159,9 @@ export const uploadDocument = async (req, res) => {
 export const getAllDocuments = async (req, res) => {
   try {
     // 1. Lấy toàn bộ tài liệu
-    const documents = await Document.find().sort({ created_at: -1 }).lean();
+    const isAdmin = req.user?.role === 'ADMIN';
+    const filter = isAdmin ? {} : { owner_id: req.user?.userId };
+    const documents = await Document.find(filter).sort({ created_at: -1 }).lean();
 
     // 2. Lấy toàn bộ User để chuẩn bị ghép nối
     const users = await User.find().select('name email full_name').lean();
@@ -197,8 +199,11 @@ export const deleteDocument = async (req, res) => {
     const documentId = req.params.id;
     const document = await Document.findById(documentId);
     if (!document) return res.status(404).json({ success: false, message: 'Khong tim thay tai lieu nay!' });
+    if (req.user?.role !== 'ADMIN' && document.owner_id?.toString() !== req.user?.userId) {
+      return res.status(403).json({ success: false, message: 'Ban khong co quyen xoa tai lieu nay.' });
+    }
     await Chunk.deleteMany({ document_id: documentId });
-    await Message.deleteMany({ document_id: documentId });
+    await Message.deleteMany({ document_id: documentId, ...(req.user?.role === 'ADMIN' ? {} : { user_id: req.user.userId }) });
     await Document.findByIdAndDelete(documentId);
     await deleteUploadedFile(document.file_url);
     res.status(200).json({ success: true, message: 'Da xoa tai lieu!' });
@@ -209,7 +214,10 @@ export const deleteDocument = async (req, res) => {
 
 export const summarizeDocument = async (req, res) => {
   try {
-    const document = await Document.findById(req.params.id);
+    const document = await Document.findOne({
+      _id: req.params.id,
+      ...(req.user?.role === 'ADMIN' ? {} : { owner_id: req.user?.userId })
+    });
     if (!document || document.status !== 'READY') return res.status(400).json({ success: false, message: 'Tai lieu chua san sang!' });
     const chunks = await Chunk.find({ document_id: req.params.id }).sort({ chunk_index: 1 });
     const fullText = chunks.map(c => c.text_content).join('\n\n');
@@ -224,6 +232,17 @@ export const compareDocuments = async (req, res) => {
   try {
     const { doc_id_1, doc_id_2, criteria } = req.body;
     if (!doc_id_1 || !doc_id_2 || !criteria) return res.status(400).json({ success: false, message: 'Thieu thong tin!' });
+    if (req.user?.role !== 'ADMIN') {
+      const ownedDocsCount = await Document.countDocuments({
+        _id: { $in: [doc_id_1, doc_id_2] },
+        owner_id: req.user?.userId,
+        status: 'READY'
+      });
+
+      if (ownedDocsCount !== 2) {
+        return res.status(403).json({ success: false, message: 'Ban chi duoc so sanh tai lieu READY cua chinh minh.' });
+      }
+    }
     const chunksA = await Chunk.find({ document_id: doc_id_1 }).limit(15);
     const contextA = chunksA.map(c => c.text_content).join('\n');
     const chunksB = await Chunk.find({ document_id: doc_id_2 }).limit(15);
